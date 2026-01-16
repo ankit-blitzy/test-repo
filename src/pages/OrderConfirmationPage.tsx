@@ -90,12 +90,12 @@ export default function OrderConfirmationPage() {
           </div>
 
           <div className="space-y-3 mb-4">
-            {order.items.map(item => (
-              <div key={item.menuItem.id} className="flex justify-between">
+            {order.items.map(cartItem => (
+              <div key={cartItem.item.id} className="flex justify-between">
                 <span>
-                  {item.menuItem.name} x {item.quantity}
+                  {cartItem.item.name} x {cartItem.quantity}
                 </span>
-                <span>${(item.menuItem.price * item.quantity).toFixed(2)}</span>
+                <span>${(cartItem.item.price * cartItem.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>

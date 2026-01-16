@@ -52,7 +52,7 @@ export default function BookingPage() {
         userId: user.id,
         date,
         time: selectedTime,
-        guestCount,
+        guests: guestCount,
         specialRequests: specialRequests || undefined,
       });
       navigate('/account', { state: { tab: 'bookings' } });

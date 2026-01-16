@@ -1,4 +1,4 @@
-import type { Booking, TimeSlot } from '../types';
+import { BookingStatus, type Booking, type TimeSlot } from '../types';
 
 // Mock bookings storage
 const bookings: Map<string, Booking> = new Map();
@@ -7,7 +7,7 @@ export interface CreateBookingData {
   userId: string;
   date: string;
   time: string;
-  guestCount: number;
+  guests: number;
   specialRequests?: string;
 }
 
@@ -52,10 +52,10 @@ export async function createBooking(data: CreateBookingData): Promise<Booking> {
     userId: data.userId,
     date: data.date,
     time: data.time,
-    guestCount: data.guestCount,
+    guests: data.guests,
     specialRequests: data.specialRequests,
-    status: 'confirmed',
-    createdAt: new Date().toISOString(),
+    status: BookingStatus.Confirmed,
+    createdAt: new Date(),
   };
   
   bookings.set(booking.id, booking);
@@ -73,7 +73,7 @@ export async function cancelBooking(bookingId: string): Promise<void> {
   
   const booking = bookings.get(bookingId);
   if (booking) {
-    booking.status = 'cancelled';
+    booking.status = BookingStatus.Cancelled;
     bookings.set(bookingId, booking);
   }
 }

@@ -146,7 +146,7 @@ export default function AccountPage() {
                     </span>
                   </div>
                   <div className="text-sm text-gray-600 mb-2">
-                    {order.items.map(item => `${item.menuItem.name} x ${item.quantity}`).join(', ')}
+                    {order.items.map(cartItem => `${cartItem.item.name} x ${cartItem.quantity}`).join(', ')}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold text-amber-600">${order.total.toFixed(2)}</span>
@@ -183,7 +183,7 @@ export default function AccountPage() {
                         })}
                       </p>
                       <p className="text-gray-600">
-                        {booking.time} · {booking.guestCount} guests
+                        {booking.time} · {booking.guests} guests
                       </p>
                       {booking.specialRequests && (
                         <p className="text-sm text-gray-500 mt-2">

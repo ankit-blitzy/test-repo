@@ -1,4 +1,4 @@
-import type { Order, CartItem } from '../types';
+import { OrderStatus, type Order, type CartItem } from '../types';
 
 // Mock orders storage
 const orders: Map<string, Order> = new Map();
@@ -23,8 +23,8 @@ export async function createOrder(data: CreateOrderData): Promise<Order> {
     subtotal: data.subtotal,
     tax: data.tax,
     total: data.total,
-    status: 'confirmed',
-    createdAt: new Date().toISOString(),
+    status: OrderStatus.Confirmed,
+    createdAt: new Date(),
     deliveryAddress: data.deliveryAddress,
     specialInstructions: data.specialInstructions,
   };

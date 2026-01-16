@@ -140,7 +140,11 @@ export interface Order {
   items: CartItem[];
   /** Current status of the order */
   status: OrderStatus;
-  /** Total price of the order (in USD) */
+  /** Subtotal before tax (in USD) */
+  subtotal: number;
+  /** Tax amount (in USD) */
+  tax: number;
+  /** Total price of the order including tax (in USD) */
   total: number;
   /** Timestamp when the order was placed */
   createdAt: Date;
@@ -213,4 +217,17 @@ export type TimeSlot = {
   time: string;
   /** Whether this time slot is available for booking */
   available: boolean;
+};
+
+/**
+ * Represents a category summary with item count for display purposes.
+ * Used by the menu service to provide category listings with counts.
+ */
+export type CategoryInfo = {
+  /** Category identifier (lowercase, matches MenuCategory values) */
+  id: string;
+  /** Display name for the category (capitalized) */
+  name: string;
+  /** Number of items in this category */
+  count: number;
 };

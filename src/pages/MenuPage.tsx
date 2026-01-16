@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { getMenuItems, getCategories } from '../services/menu';
 import { useCart } from '../context/CartContext';
-import type { MenuItem, MenuCategory } from '../types';
+import { MenuCategory, type MenuItem, type CategoryInfo } from '../types';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export default function MenuPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [categories, setCategories] = useState<MenuCategory[]>([]);
+  const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -95,10 +95,11 @@ export default function MenuPage() {
             <Card key={item.id} className="flex flex-col">
               <div className="aspect-video bg-amber-100 flex items-center justify-center">
                 <span className="text-6xl">
-                  {item.category === 'burgers' && '🍔'}
-                  {item.category === 'sides' && '🍟'}
-                  {item.category === 'drinks' && '🥤'}
-                  {item.category === 'desserts' && '🍰'}
+                  {item.category === MenuCategory.Burgers && '🍔'}
+                  {item.category === MenuCategory.Sides && '🍟'}
+                  {item.category === MenuCategory.Drinks && '🥤'}
+                  {item.category === MenuCategory.Desserts && '🍰'}
+                  {item.category === MenuCategory.Specials && '⭐'}
                 </span>
               </div>
               <div className="p-4 flex-grow flex flex-col">
@@ -113,7 +114,7 @@ export default function MenuPage() {
                   <Button
                     size="sm"
                     onClick={() => addToCart(item)}
-                    disabled={!item.available}
+                    disabled={!item.isAvailable}
                   >
                     Add to Cart
                   </Button>

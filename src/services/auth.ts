@@ -1,18 +1,6 @@
-import type { User } from '../types';
+import type { User, LoginCredentials, RegisterData } from '../types';
 
 const STORAGE_KEY = 'burger_house_user';
-
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-export interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  phone?: string;
-}
 
 // Mock user data
 const mockUsers: Map<string, { user: User; password: string }> = new Map();
@@ -41,6 +29,7 @@ export async function register(data: RegisterData): Promise<User> {
     name: data.name,
     email: data.email,
     phone: data.phone,
+    createdAt: new Date(),
   };
   
   mockUsers.set(data.email, { user, password: data.password });

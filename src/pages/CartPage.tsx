@@ -26,29 +26,29 @@ export default function CartPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
-          {items.map(item => (
-            <Card key={item.menuItem.id} className="p-4">
+          {items.map(cartItem => (
+            <Card key={cartItem.item.id} className="p-4">
               <div className="flex items-center gap-4">
                 <div className="w-20 h-20 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   <span className="text-3xl">🍔</span>
                 </div>
                 <div className="flex-grow">
-                  <h3 className="font-semibold">{item.menuItem.name}</h3>
-                  <p className="text-gray-600 text-sm">{item.menuItem.description}</p>
+                  <h3 className="font-semibold">{cartItem.item.name}</h3>
+                  <p className="text-gray-600 text-sm">{cartItem.item.description}</p>
                   <p className="text-amber-600 font-semibold mt-1">
-                    ${item.menuItem.price.toFixed(2)}
+                    ${cartItem.item.price.toFixed(2)}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => updateQuantity(item.menuItem.id, item.quantity - 1)}
+                    onClick={() => updateQuantity(cartItem.item.id, cartItem.quantity - 1)}
                     className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
                   >
                     -
                   </button>
-                  <span className="w-8 text-center">{item.quantity}</span>
+                  <span className="w-8 text-center">{cartItem.quantity}</span>
                   <button
-                    onClick={() => updateQuantity(item.menuItem.id, item.quantity + 1)}
+                    onClick={() => updateQuantity(cartItem.item.id, cartItem.quantity + 1)}
                     className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
                   >
                     +
@@ -56,10 +56,10 @@ export default function CartPage() {
                 </div>
                 <div className="text-right">
                   <p className="font-semibold">
-                    ${(item.menuItem.price * item.quantity).toFixed(2)}
+                    ${(cartItem.item.price * cartItem.quantity).toFixed(2)}
                   </p>
                   <button
-                    onClick={() => removeFromCart(item.menuItem.id)}
+                    onClick={() => removeFromCart(cartItem.item.id)}
                     className="text-red-500 text-sm hover:underline"
                   >
                     Remove

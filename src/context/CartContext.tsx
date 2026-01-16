@@ -28,27 +28,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-  const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
-  const subtotal = items.reduce((acc, item) => acc + item.menuItem.price * item.quantity, 0);
+  const itemCount = items.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
+  const subtotal = items.reduce((acc, cartItem) => acc + cartItem.item.price * cartItem.quantity, 0);
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
   const addToCart = (menuItem: MenuItem, quantity = 1) => {
     setItems(currentItems => {
-      const existingItem = currentItems.find(item => item.menuItem.id === menuItem.id);
+      const existingItem = currentItems.find(cartItem => cartItem.item.id === menuItem.id);
       if (existingItem) {
-        return currentItems.map(item =>
-          item.menuItem.id === menuItem.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+        return currentItems.map(cartItem =>
+          cartItem.item.id === menuItem.id
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
+            : cartItem
         );
       }
-      return [...currentItems, { menuItem, quantity }];
+      return [...currentItems, { item: menuItem, quantity }];
     });
   };
 
   const removeFromCart = (itemId: string) => {
-    setItems(currentItems => currentItems.filter(item => item.menuItem.id !== itemId));
+    setItems(currentItems => currentItems.filter(cartItem => cartItem.item.id !== itemId));
   };
 
   const updateQuantity = (itemId: string, quantity: number) => {
@@ -57,8 +57,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
     setItems(currentItems =>
-      currentItems.map(item =>
-        item.menuItem.id === itemId ? { ...item, quantity } : item
+      currentItems.map(cartItem =>
+        cartItem.item.id === itemId ? { ...cartItem, quantity } : cartItem
       )
     );
   };
