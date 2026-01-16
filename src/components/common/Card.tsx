@@ -210,3 +210,6 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
 );
 
 CardFooter.displayName = 'CardFooter';
+
+// Default export for backward compatibility with default import syntax
+export default Card;
