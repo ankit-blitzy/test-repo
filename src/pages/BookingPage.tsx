@@ -48,13 +48,13 @@ export default function BookingPage() {
     setIsSubmitting(true);
     setError(null);
     try {
-      await createBooking({
-        userId: user.id,
+      await createBooking(
+        user.id,
         date,
-        time: selectedTime,
-        guests: guestCount,
-        specialRequests: specialRequests || undefined,
-      });
+        selectedTime,
+        guestCount,
+        specialRequests || undefined
+      );
       navigate('/account', { state: { tab: 'bookings' } });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create booking');

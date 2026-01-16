@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getUserOrders } from '../services/order';
-import { getUserBookings } from '../services/booking';
+import { getBookingsByUser } from '../services/booking';
 import type { Order, Booking } from '../types';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
@@ -42,7 +42,7 @@ export default function AccountPage() {
       const loadBookings = async () => {
         setIsLoadingBookings(true);
         try {
-          const data = await getUserBookings(user.id);
+          const data = await getBookingsByUser(user.id);
           setBookings(data);
         } finally {
           setIsLoadingBookings(false);
