@@ -177,5 +177,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }): React.JSX.E
 // EXPORTS
 // =============================================================================
 
-// Named export of MainLayout is the primary export above
-// MainLayoutProps is also exported as a named export for TypeScript consumers
+// Default export for consistent usage with other layout components (Header, Footer)
+// This allows importing as: import MainLayout from './MainLayout'
+export default MainLayout;
+
+// Named export (MainLayout) is also available above via: import { MainLayout } from './MainLayout'
+// MainLayoutProps is exported as a named export for TypeScript consumers
