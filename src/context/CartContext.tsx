@@ -31,7 +31,7 @@
  * }
  */
 
-import {
+import React, {
   createContext,
   useContext,
   useState,
@@ -71,6 +71,12 @@ export interface CartContextType {
 
   /** Total count of all items (sum of quantities) */
   itemCount: number;
+
+  /** Cart subtotal (before tax) */
+  subtotal: number;
+
+  /** Tax amount */
+  tax: number;
 
   /**
    * Adds an item to the cart or increases quantity if already present.
@@ -237,14 +243,14 @@ interface CartProviderProps {
  * - Automatic localStorage persistence
  *
  * @param {CartProviderProps} props - Component props
- * @returns {JSX.Element} Provider component wrapping children
+ * @returns {React.ReactElement} Provider component wrapping children
  *
  * @example
  * <CartProvider>
  *   <App />
  * </CartProvider>
  */
-export function CartProvider({ children }: CartProviderProps): JSX.Element {
+export function CartProvider({ children }: CartProviderProps): React.ReactElement {
   // Initialize state from localStorage
   const [items, setItems] = useState<CartItem[]>(() => getStoredCartItems());
 
@@ -382,6 +388,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     items,
     total,
     itemCount,
+    subtotal,
+    tax,
     addToCart,
     removeFromCart,
     updateQuantity,
