@@ -23,7 +23,7 @@ import { z } from 'zod';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { createOrder } from '../services/order';
-import { Button, Card, Input } from '../components';
+import { Button, Card } from '../components';
 
 // =============================================================================
 // SCHEMA DEFINITIONS
@@ -76,7 +76,7 @@ type CheckoutFormData = z.infer<typeof checkoutSchema>;
  *
  * @returns The checkout page component
  */
-function CheckoutPage(): JSX.Element | null {
+function CheckoutPage() {
   // ---------------------------------------------------------------------------
   // HOOKS & STATE
   // ---------------------------------------------------------------------------
