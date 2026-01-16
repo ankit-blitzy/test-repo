@@ -186,3 +186,5 @@ export function Modal({
   // Render modal content into document.body using portal
   return createPortal(modalContent, document.body);
 }
+
+export default Modal;
