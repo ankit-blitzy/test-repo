@@ -47,7 +47,7 @@ const contactInfo = {
  * Renders a responsive multi-column footer with navigation, contact info,
  * opening hours, and social media links
  */
-export function Footer(): React.JSX.Element {
+export default function Footer(): React.JSX.Element {
   const currentYear = new Date().getFullYear();
 
   return (
