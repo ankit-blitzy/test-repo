@@ -80,7 +80,7 @@ export default function BookingPage() {
               label="Select Date"
               type="date"
               value={date}
-              onChange={e => setDate(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDate(e.target.value)}
               min={today}
               required
             />

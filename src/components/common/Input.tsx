@@ -98,3 +98,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
 // Display name for React DevTools debugging
 Input.displayName = 'Input';
+
+export default Input;
