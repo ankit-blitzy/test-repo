@@ -26,10 +26,10 @@ describe('Menu Service', () => {
 
   describe('getMenuItem', () => {
     it('should return a specific menu item by id', async () => {
-      const item = await getMenuItem('1');
+      const item = await getMenuItem('burger-1');
       
       expect(item).toBeDefined();
-      expect(item?.id).toBe('1');
+      expect(item?.id).toBe('burger-1');
       expect(item?.name).toBe('Classic Burger');
     });
 

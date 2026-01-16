@@ -11,7 +11,7 @@
  * @version 1.0.0
  */
 
-import { MenuItem, MenuCategory } from '../types';
+import { MenuItem, MenuCategory, CategoryInfo } from '../types';
 
 // =============================================================================
 // MOCK MENU DATA
@@ -242,6 +242,73 @@ export async function getAllMenuItems(): Promise<MenuItem[]> {
 }
 
 /**
+ * Retrieves menu items, optionally filtered by category string.
+ * If no category is provided, returns all menu items.
+ * Compatible with UI components that use string category identifiers.
+ *
+ * @param category - Optional category string to filter by (e.g., 'burgers', 'sides')
+ * @returns Promise resolving to an array of MenuItem objects
+ *
+ * @example
+ * ```typescript
+ * const allItems = await getMenuItems();
+ * const burgers = await getMenuItems('burgers');
+ * ```
+ */
+export async function getMenuItems(category?: string): Promise<MenuItem[]> {
+  await simulateNetworkDelay();
+  
+  if (!category) {
+    return [...menuItems];
+  }
+  
+  const categoryLower = category.toLowerCase();
+  return menuItems.filter((item) => item.category === categoryLower);
+}
+
+/**
+ * Retrieves featured menu items for homepage display.
+ * Returns the first 4 items from specials and popular burgers.
+ *
+ * @returns Promise resolving to an array of featured MenuItem objects (4 items)
+ *
+ * @example
+ * ```typescript
+ * const featured = await getFeaturedItems();
+ * console.log(`Featured count: ${featured.length}`); // 4
+ * ```
+ */
+export async function getFeaturedItems(): Promise<MenuItem[]> {
+  await simulateNetworkDelay();
+  
+  // Return specials first, then top burgers to fill up to 4 items
+  const specials = menuItems.filter((item) => item.category === MenuCategory.Specials);
+  const burgers = menuItems.filter((item) => item.category === MenuCategory.Burgers);
+  
+  const featured = [...specials, ...burgers.slice(0, 4 - specials.length)];
+  return featured.slice(0, 4);
+}
+
+/**
+ * Retrieves a single menu item by its unique identifier.
+ * Alias for getMenuItemById for backward compatibility.
+ *
+ * @param id - The unique identifier of the menu item
+ * @returns Promise resolving to the MenuItem if found, or null if not found
+ *
+ * @example
+ * ```typescript
+ * const item = await getMenuItem('burger-1');
+ * if (item) {
+ *   console.log(item.name); // 'Classic Burger'
+ * }
+ * ```
+ */
+export async function getMenuItem(id: string): Promise<MenuItem | null> {
+  return getMenuItemById(id);
+}
+
+/**
  * Retrieves menu items filtered by a specific category.
  * Returns only items that belong to the specified MenuCategory.
  *
@@ -328,25 +395,25 @@ export async function searchMenuItems(query: string): Promise<MenuItem[]> {
 
 /**
  * Retrieves all menu categories with their item counts.
- * Returns an array of category information objects showing how many items
+ * Returns an array of CategoryInfo objects showing how many items
  * are available in each category.
  *
- * @returns Promise resolving to an array of category objects with category enum value and count
+ * @returns Promise resolving to an array of CategoryInfo objects with id, name, and count
  *
  * @example
  * ```typescript
  * const categories = await getCategories();
  * // Returns:
  * // [
- * //   { category: MenuCategory.Burgers, count: 5 },
- * //   { category: MenuCategory.Sides, count: 4 },
- * //   { category: MenuCategory.Drinks, count: 4 },
- * //   { category: MenuCategory.Desserts, count: 2 },
- * //   { category: MenuCategory.Specials, count: 2 }
+ * //   { id: 'burgers', name: 'Burgers', count: 5 },
+ * //   { id: 'sides', name: 'Sides', count: 4 },
+ * //   { id: 'drinks', name: 'Drinks', count: 4 },
+ * //   { id: 'desserts', name: 'Desserts', count: 2 },
+ * //   { id: 'specials', name: 'Specials', count: 2 }
  * // ]
  * ```
  */
-export async function getCategories(): Promise<{ category: MenuCategory; count: number }[]> {
+export async function getCategories(): Promise<CategoryInfo[]> {
   await simulateNetworkDelay();
 
   // Build a map of category counts
@@ -361,6 +428,15 @@ export async function getCategories(): Promise<{ category: MenuCategory; count: 
     MenuCategory.Specials,
   ];
 
+  // Category display names
+  const categoryNames: Record<MenuCategory, string> = {
+    [MenuCategory.Burgers]: 'Burgers',
+    [MenuCategory.Sides]: 'Sides',
+    [MenuCategory.Drinks]: 'Drinks',
+    [MenuCategory.Desserts]: 'Desserts',
+    [MenuCategory.Specials]: 'Specials',
+  };
+
   for (const category of allCategories) {
     categoryCountMap.set(category, 0);
   }
@@ -371,9 +447,10 @@ export async function getCategories(): Promise<{ category: MenuCategory; count: 
     categoryCountMap.set(item.category, currentCount + 1);
   }
 
-  // Convert map to array of objects in the correct order
+  // Convert map to array of CategoryInfo objects in the correct order
   return allCategories.map((category) => ({
-    category,
+    id: category, // MenuCategory enum value is the lowercase string
+    name: categoryNames[category],
     count: categoryCountMap.get(category) ?? 0,
   }));
 }
