@@ -19,7 +19,7 @@
  * ```
  */
 
-import {
+import React, {
   createContext,
   useContext,
   useState,
@@ -161,7 +161,7 @@ interface AuthProviderProps {
  * }
  * ```
  */
-export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
+export function AuthProvider({ children }: AuthProviderProps): React.JSX.Element {
   // ==========================================================================
   // STATE MANAGEMENT
   // ==========================================================================

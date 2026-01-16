@@ -40,7 +40,7 @@ export default function RegisterPage() {
     setError(null);
     setIsLoading(true);
     try {
-      await registerUser(data.name, data.email, data.password, data.phone);
+      await registerUser({ name: data.name, email: data.email, password: data.password, phone: data.phone });
       navigate('/', { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
