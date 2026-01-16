@@ -8,14 +8,37 @@
  * @version 1.0.0
  */
 
-import { Order, OrderStatus, CartItem, MenuCategory } from '../types';
+import type { Order, CartItem } from '../types';
+import { OrderStatus, MenuCategory } from '../types';
+
+// =============================================================================
+// TYPES
+// =============================================================================
+
+/**
+ * Parameters for creating a new order.
+ * Supports both object-based and individual parameter calling conventions.
+ */
+export interface CreateOrderParams {
+  /** ID of the user placing the order */
+  userId: string;
+  /** Array of cart items to include in the order */
+  items: CartItem[];
+  /** Subtotal before tax (in USD) */
+  subtotal: number;
+  /** Tax amount (in USD) */
+  tax: number;
+  /** Total price including tax (in USD) */
+  total: number;
+  /** Optional delivery address for the order */
+  deliveryAddress?: string;
+  /** Optional special instructions from the customer */
+  specialInstructions?: string;
+}
 
 // =============================================================================
 // CONSTANTS
 // =============================================================================
-
-/** Tax rate for order calculations (8.25%) */
-const TAX_RATE = 0.0825;
 
 /** Minimum delivery time in minutes */
 const MIN_DELIVERY_TIME_MINUTES = 30;
@@ -74,15 +97,6 @@ function calculateEstimatedDelivery(): Date {
     MIN_DELIVERY_TIME_MINUTES +
     Math.floor(Math.random() * (MAX_DELIVERY_TIME_MINUTES - MIN_DELIVERY_TIME_MINUTES + 1));
   return new Date(now.getTime() + deliveryMinutes * 60 * 1000);
-}
-
-/**
- * Calculates tax amount based on subtotal.
- * @param subtotal - The subtotal amount before tax
- * @returns Tax amount rounded to 2 decimal places
- */
-function calculateTax(subtotal: number): number {
-  return Math.round(subtotal * TAX_RATE * 100) / 100;
 }
 
 // =============================================================================
@@ -201,35 +215,36 @@ const mockOrders: Order[] = [
 
 /**
  * Creates a new order with the provided cart items and details.
- * Generates unique ID, calculates tax, sets initial status to 'pending',
+ * Generates unique ID, sets initial status to 'pending',
  * and adds order to mock storage.
  *
- * @param userId - ID of the user placing the order
- * @param items - Array of cart items to include in the order
- * @param total - Total price of the order (subtotal before tax)
- * @param deliveryAddress - Optional delivery address for the order
- * @param specialInstructions - Optional special instructions from the customer
+ * @param params - Order creation parameters object
+ * @param params.userId - ID of the user placing the order
+ * @param params.items - Array of cart items to include in the order
+ * @param params.subtotal - Subtotal before tax (in USD)
+ * @param params.tax - Tax amount (in USD)
+ * @param params.total - Total price including tax (in USD)
+ * @param params.deliveryAddress - Optional delivery address for the order
+ * @param params.specialInstructions - Optional special instructions from the customer
  * @returns Promise resolving to the created Order object
  *
  * @example
  * ```typescript
- * const order = await createOrder(
- *   'user-123',
- *   cartItems,
- *   45.99,
- *   '123 Main St',
- *   'No onions please'
- * );
+ * const order = await createOrder({
+ *   userId: 'user-123',
+ *   items: cartItems,
+ *   subtotal: 42.50,
+ *   tax: 3.51,
+ *   total: 46.01,
+ *   deliveryAddress: '123 Main St',
+ *   specialInstructions: 'No onions please'
+ * });
  * ```
  */
-export async function createOrder(
-  userId: string,
-  items: CartItem[],
-  total: number,
-  deliveryAddress?: string,
-  specialInstructions?: string
-): Promise<Order> {
+export async function createOrder(params: CreateOrderParams): Promise<Order> {
   await simulateNetworkDelay();
+
+  const { userId, items, subtotal, tax, total, deliveryAddress, specialInstructions } = params;
 
   // Validate inputs
   if (!userId || userId.trim() === '') {
@@ -244,11 +259,6 @@ export async function createOrder(
     throw new Error('Order total must be greater than zero');
   }
 
-  // Calculate subtotal and tax
-  const subtotal = total;
-  const tax = calculateTax(subtotal);
-  const finalTotal = Math.round((subtotal + tax) * 100) / 100;
-
   // Create the new order
   const newOrder: Order = {
     id: generateOrderId(),
@@ -257,7 +267,7 @@ export async function createOrder(
     status: OrderStatus.Pending,
     subtotal,
     tax,
-    total: finalTotal,
+    total,
     createdAt: new Date(),
     estimatedDelivery: calculateEstimatedDelivery(),
     deliveryAddress: deliveryAddress?.trim(),
@@ -427,3 +437,25 @@ export async function cancelOrder(orderId: string): Promise<boolean> {
 
   return true;
 }
+
+// =============================================================================
+// ALIAS EXPORTS
+// =============================================================================
+
+/**
+ * Alias for getOrdersByUser for backward compatibility.
+ * Retrieves all orders for a specific user, sorted by creation date (newest first).
+ *
+ * @param userId - ID of the user whose orders to fetch
+ * @returns Promise resolving to array of Order objects for the user
+ */
+export const getUserOrders = getOrdersByUser;
+
+/**
+ * Alias for getOrderById for backward compatibility.
+ * Fetches a single order by its unique ID.
+ *
+ * @param orderId - Unique identifier of the order to fetch
+ * @returns Promise resolving to the Order object, or null if not found
+ */
+export const getOrder = getOrderById;
