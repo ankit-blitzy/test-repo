@@ -101,7 +101,7 @@ const NAV_LINKS: readonly NavLink[] = [
  * }
  * ```
  */
-export function Header(): React.JSX.Element {
+export default function Header(): React.JSX.Element {
   // ===========================================================================
   // STATE MANAGEMENT
   // ===========================================================================
@@ -380,7 +380,7 @@ export function Header(): React.JSX.Element {
 
               {/* Mobile Auth Section */}
               {isAuthenticated ? (
-                /* Authenticated User Options */}
+                /* Authenticated User Options */
                 <>
                   <Link
                     to="/account"
@@ -423,3 +423,6 @@ export function Header(): React.JSX.Element {
     </header>
   );
 }
+
+// Named export for explicit imports
+export { Header };
