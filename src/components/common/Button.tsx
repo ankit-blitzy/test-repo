@@ -155,3 +155,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 // Display name for React DevTools debugging
 Button.displayName = 'Button';
+
+// Default export for compatibility with re-export pattern in components/index.ts
+export default Button;
