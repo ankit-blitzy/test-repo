@@ -16,7 +16,7 @@
  * @version 1.0.0
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card } from '../components';
 import { getAllMenuItems } from '../services/menu';
