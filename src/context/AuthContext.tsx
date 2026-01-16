@@ -18,18 +18,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
-    setIsLoading(false);
+    const loadUser = async () => {
+      const currentUser = await authService.getCurrentUser();
+      setUser(currentUser);
+      setIsLoading(false);
+    };
+    loadUser();
   }, []);
 
   const login = async (email: string, password: string) => {
-    const loggedInUser = await authService.login({ email, password });
+    const { user: loggedInUser } = await authService.login({ email, password });
     setUser(loggedInUser);
   };
 
   const register = async (name: string, email: string, password: string, phone?: string) => {
-    const registeredUser = await authService.register({ name, email, password, phone });
+    const { user: registeredUser } = await authService.register({ name, email, password, phone });
     setUser(registeredUser);
   };
 

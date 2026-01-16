@@ -14,12 +14,14 @@ describe('Auth Service', () => {
         password: 'password123',
       };
 
-      const user = await register(userData);
+      const result = await register(userData);
 
-      expect(user).toBeDefined();
-      expect(user.name).toBe(userData.name);
-      expect(user.email).toBe(userData.email);
-      expect(user.id).toBeDefined();
+      expect(result).toBeDefined();
+      expect(result.user).toBeDefined();
+      expect(result.token).toBeDefined();
+      expect(result.user.name).toBe(userData.name);
+      expect(result.user.email).toBe(userData.email);
+      expect(result.user.id).toBeDefined();
     });
 
     it('should throw error if email is already registered', async () => {
@@ -45,13 +47,15 @@ describe('Auth Service', () => {
 
       await register(userData);
 
-      const user = await login({
+      const result = await login({
         email: userData.email,
         password: userData.password,
       });
 
-      expect(user).toBeDefined();
-      expect(user.email).toBe(userData.email);
+      expect(result).toBeDefined();
+      expect(result.user).toBeDefined();
+      expect(result.token).toBeDefined();
+      expect(result.user.email).toBe(userData.email);
     });
 
     it('should throw error with invalid credentials', async () => {
