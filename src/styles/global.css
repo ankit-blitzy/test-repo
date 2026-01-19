@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Custom CSS variables for the burger restaurant theme */
+:root {
+  --color-primary: #f59e0b;
+  --color-secondary: #78350f;
+  --color-accent: #fbbf24;
+  --color-background: #fffbeb;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+}
+
+/* Base styles */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* Ingredient tag styling */
+.ingredient-tag {
+  @apply inline-flex items-center px-2 py-1 
+         text-sm bg-amber-100 text-amber-800 
+         rounded-full mr-1 mb-1;
+}
+
+/* Ingredient preview text styling */
+.ingredient-preview {
+  @apply text-gray-600 text-sm truncate;
+}
+
+/* Menu item card styling */
+.menu-item-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden 
+         transition-transform hover:scale-105 hover:shadow-lg;
+}
