@@ -3,9 +3,8 @@
  * Tests for the Zustand menu state management
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { useMenuStore } from '@/features/ordering/store/menuStore';
-import { mockMenuItems, mockCategories } from '@/data';
 
 describe('menuStore', () => {
   beforeEach(() => {
@@ -23,7 +22,7 @@ describe('menuStore', () => {
 
   describe('fetchMenu', () => {
     it('fetches and stores menu items', async () => {
-      const { fetchMenu, items, categories } = useMenuStore.getState();
+      const { fetchMenu } = useMenuStore.getState();
 
       await fetchMenu();
 

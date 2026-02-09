@@ -56,7 +56,7 @@ export function useMenu(): UseMenuReturn {
   // Apply filters with custom filter options
   const applyFilters = useCallback(
     (filters: MenuFilterOptions): MenuItem[] => {
-      let result = items.filter((item) => {
+      const result = items.filter((item) => {
         // Available only filter
         if (filters.availableOnly && !item.isAvailable) {
           return false;
