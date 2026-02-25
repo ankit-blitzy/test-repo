@@ -193,4 +193,8 @@ The following external resources provide additional learning material and refere
 
 ---
 
-[← Conditional Formatting](08-conditional-formatting.md) | [↑ Documentation Index](../README.md)
+## Navigation
+
+| | | |
+|---|---|---|
+| [← Conditional Formatting](08-conditional-formatting.md) | [↑ Documentation Index](../README.md) | |

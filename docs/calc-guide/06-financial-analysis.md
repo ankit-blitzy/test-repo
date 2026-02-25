@@ -172,7 +172,7 @@ The **FV** function calculates the future value of an investment based on a cons
    - (1.005833)^120 ≈ 2.0097
    - FV = 500 × (2.0097 − 1) ÷ 0.005833
    - FV = 500 × 1.0097 ÷ 0.005833
-   - FV = 500 × 173.08
+   - FV = 500 × 173.0848
 
 4. **Result: $86,542.40**
 
@@ -619,7 +619,6 @@ The following best practices will help you build financial models in Calc that a
 
 ## Navigation
 
-| | |
-|---|---|
-| **Previous:** [← Charts](05-charts.md) | **Next:** [Data Validation →](07-data-validation.md) |
-| | **Home:** [↑ Documentation Index](../README.md) |
+| | | |
+|---|---|---|
+| [← Charts](05-charts.md) | [↑ Documentation Index](../README.md) | [Data Validation →](07-data-validation.md) |
