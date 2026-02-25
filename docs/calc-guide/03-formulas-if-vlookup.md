@@ -426,22 +426,22 @@ The following diagram visualizes how VLOOKUP searches for a value, covering both
 ```mermaid
 flowchart TD
     A["Start: Receive lookup_value and table_array"] --> B["Go to first row of table_array"]
-    B --> C{"Is range_lookup FALSE?\n(Exact Match?)"}
+    B --> C{"Is range_lookup FALSE?<br/>(Exact Match?)"}
 
-    C -- "Yes (Exact Match)" --> D{"Does first column value\n= lookup_value?"}
-    D -- "Yes" --> E["Match found!\nReturn value from col_index column"]
-    D -- "No" --> F{"Are there more rows\nin table_array?"}
+    C -- "Yes (Exact Match)" --> D{"Does first column value<br/>= lookup_value?"}
+    D -- "Yes" --> E["Match found!<br/>Return value from col_index column"]
+    D -- "No" --> F{"Are there more rows<br/>in table_array?"}
     F -- "Yes" --> G["Move to next row"]
     G --> D
-    F -- "No" --> H["No match found\nReturn #N/A error"]
+    F -- "No" --> H["No match found<br/>Return #N/A error"]
 
-    C -- "No (Approximate Match)" --> I{"Is first column value\n≤ lookup_value?"}
+    C -- "No (Approximate Match)" --> I{"Is first column value<br/>≤ lookup_value?"}
     I -- "Yes" --> J["Store row as potential match"]
-    J --> K{"Are there more rows\nin table_array?"}
+    J --> K{"Are there more rows<br/>in table_array?"}
     K -- "Yes" --> L["Move to next row"]
     L --> I
-    K -- "No" --> M["Return value from col_index\nof last potential match"]
-    I -- "No (value > lookup_value)" --> N{"Was a potential match\nstored previously?"}
+    K -- "No" --> M["Return value from col_index<br/>of last potential match"]
+    I -- "No (value > lookup_value)" --> N{"Was a potential match<br/>stored previously?"}
     N -- "Yes" --> M
     N -- "No" --> H
 
