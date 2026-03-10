@@ -112,7 +112,6 @@ Indexes are critical for efficient query execution on the `tasks` collection. Th
 ```javascript
 db.tasks.createIndex({ is_completed: 1 }, { name: "idx_is_completed" })
 db.tasks.createIndex({ priority: 1 }, { name: "idx_priority" })
-db.tasks.createIndex({ due_date: 1 }, { name: "idx_due_date" })
 db.tasks.createIndex({ is_completed: 1, priority: 1 }, { name: "idx_status_priority" })
 ```
 
@@ -141,22 +140,9 @@ Data validation is enforced at two levels: the archie-service-backend validates 
 MongoDB supports JSON Schema-based document validation at the collection level. The following illustrative validation rule ensures that all documents in the `tasks` collection conform to the expected structure:
 
 ```javascript
-db.createCollection("tasks", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      required: ["title", "priority", "is_completed", "created_at", "updated_at"],
-      properties: {
-        title: { bsonType: "string", maxLength: 200, description: "Task title — required, max 200 chars" },
-        priority: { enum: ["High", "Medium", "Low"], description: "Task priority level" },
-        is_completed: { bsonType: "bool", description: "Completion status flag" },
-        due_date: { bsonType: ["date", "null"], description: "Optional task deadline" },
-        created_at: { bsonType: "date", description: "Creation timestamp" },
-        updated_at: { bsonType: "date", description: "Last update timestamp" }
-      }
-    }
-  }
-})
+db.createCollection("tasks", { validator: { $jsonSchema: { bsonType: "object",
+  required: ["title", "priority", "is_completed", "created_at", "updated_at"],
+  properties: { title: { bsonType: "string", maxLength: 200 } } } } })
 ```
 
 > **Note:** This is an illustrative schema validation definition showing the intended constraints. The actual implementation will be part of the application's database setup process.
