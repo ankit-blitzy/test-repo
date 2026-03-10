@@ -28,7 +28,7 @@ Start by cloning the To-Do List Application repository to your local machine and
 
 ```bash
 git clone <repository-url>
-cd todo-list-app
+cd task-list-app
 ```
 
 > **Note:** Replace `<repository-url>` with the actual Git URL for this project. The repository contains both the backend and frontend codebases in a monorepo structure.
@@ -111,7 +111,7 @@ The To-Do List Application uses **MongoDB 8.0.x** as its document database. You 
 If you have Docker Engine installed, start a MongoDB 8.0 container with a single command:
 
 ```bash
-docker run -d --name todo-mongo -p 27017:27017 mongo:8.0
+docker run -d --name task-mongo -p 27017:27017 mongo:8.0
 ```
 
 This starts a MongoDB 8.0 instance accessible at `localhost:27017`. The `-d` flag runs the container in the background, and `-p 27017:27017` maps the container's MongoDB port to your local machine.
@@ -119,7 +119,7 @@ This starts a MongoDB 8.0 instance accessible at `localhost:27017`. The `-d` fla
 To verify the container is running:
 
 ```bash
-docker ps --filter name=todo-mongo
+docker ps --filter name=task-mongo
 ```
 
 ### Option B: Local MongoDB Installation
@@ -132,9 +132,9 @@ If you prefer a system-wide MongoDB installation:
 
 ### Create the Database
 
-Once MongoDB is running, the application will automatically create the `todo_app` database and the required `tasks` collection on first use. No manual database initialization is required — PyMongo 4.16.x creates collections implicitly when the first document is inserted.
+Once MongoDB is running, the application will automatically create the `task_app` database and the required `tasks` collection on first use. No manual database initialization is required — PyMongo 4.16.x creates collections implicitly when the first document is inserted.
 
-> **Tip:** You can verify MongoDB connectivity using the Mongo shell: `mongosh mongodb://localhost:27017/todo_app`
+> **Tip:** You can verify MongoDB connectivity using the Mongo shell: `mongosh mongodb://localhost:27017/task_app`
 
 *Source: Technical Specification §3.5, §6.2*
 
@@ -157,14 +157,14 @@ cp .env.example .env
 Open the `.env` file and set the following variables:
 
 ```env
-DATABASE_URL=mongodb://localhost:27017/todo_app
+DATABASE_URL=mongodb://localhost:27017/task_app
 APP_PORT=5000
 # See the full variable list in the table below
 ```
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `DATABASE_URL` | Yes | `mongodb://localhost:27017/todo_app` | MongoDB connection string for task data storage |
+| `DATABASE_URL` | Yes | `mongodb://localhost:27017/task_app` | MongoDB connection string for task data storage |
 | `APP_PORT` | No | `5000` | Port for the Flask backend server (archie-service-backend) |
 | `NODE_ENV` | No | `development` | Environment mode for the frontend (`development` or `production`) |
 | `API_BASE_URL` | No | `http://localhost:5000/api` | Backend API base URL used by the U! frontend to send task requests |
@@ -247,7 +247,7 @@ You should see the To-Do List Application's task management interface rendered b
 Confirm that the backend can communicate with MongoDB by checking the application logs for a successful database connection message, or by running:
 
 ```bash
-mongosh mongodb://localhost:27017/todo_app --eval "db.stats()"
+mongosh mongodb://localhost:27017/task_app --eval "db.stats()"
 ```
 
 A successful response with database statistics confirms MongoDB is accessible.
@@ -285,10 +285,10 @@ Alternatively, change the port by setting `APP_PORT` in your `.env` file (backen
 
 **Solution:**
 
-1. Verify MongoDB is running: `docker ps --filter name=todo-mongo` (Docker) or `mongosh` (local installation)
+1. Verify MongoDB is running: `docker ps --filter name=task-mongo` (Docker) or `mongosh` (local installation)
 2. Check the `DATABASE_URL` in your `.env` file matches your MongoDB instance address
 3. Ensure the MongoDB port (27017) is not blocked by a firewall
-4. If using Docker, verify the container is running: `docker start todo-mongo`
+4. If using Docker, verify the container is running: `docker start task-mongo`
 
 ### Python Version Mismatch
 

@@ -30,10 +30,10 @@ The archie-service-backend accesses MongoDB through **PyMongo 4.16.x**, the offi
 
 | Item | Name | Description |
 |------|------|-------------|
-| Database | `todo_app` | The MongoDB database dedicated to the To-Do List Application |
+| Database | `task_app` | The MongoDB database dedicated to the To-Do List Application |
 | Collection | `tasks` | The single collection storing all task documents |
 
-The `todo_app` database is configured via the `DATABASE_URL` environment variable (e.g., `mongodb://localhost:27017/todo_app`). All task management operations target the `tasks` collection within this database.
+The `task_app` database is configured via the `DATABASE_URL` environment variable (e.g., `mongodb://localhost:27017/task_app`). All task management operations target the `tasks` collection within this database.
 
 ---
 

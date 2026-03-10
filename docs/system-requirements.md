@@ -31,14 +31,14 @@ The To-Do List Application uses **MongoDB 8.0.x** as its primary data store. Mon
 |-------------|---------|
 | Database Engine | MongoDB 8.0.x |
 | Driver | PyMongo 4.16.x (Python MongoDB driver used by archie-service-backend) |
-| Default Database Name | `todo_app` |
+| Default Database Name | `task_app` |
 | Minimum Storage | Sufficient disk space for task collections (lightweight; minimal storage footprint) |
 | Connection Options | Local MongoDB instance **or** Docker container (`mongo:8.0` image) |
 | Production Alternative | MongoDB Atlas (cloud-hosted) for managed deployment |
 
 ### Connection Details
 
-- **Default connection string:** `mongodb://localhost:27017/todo_app`
+- **Default connection string:** `mongodb://localhost:27017/task_app`
 - **Protocol:** MongoDB wire protocol via PyMongo 4.16.x
 - **Authentication:** Optional for local development; recommended for production deployments
 - **Replica Sets:** Not required for development; recommended for production high availability
@@ -88,7 +88,7 @@ The To-Do List Application uses environment variables to configure runtime behav
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `DATABASE_URL` | Yes | `mongodb://localhost:27017/todo_app` | MongoDB connection string for task data storage |
+| `DATABASE_URL` | Yes | `mongodb://localhost:27017/task_app` | MongoDB connection string for task data storage |
 | `APP_PORT` | No | `5000` | Port for the Flask backend server (archie-service-backend) |
 | `NODE_ENV` | No | `development` | Environment mode for the frontend (`development` or `production`) |
 | `API_BASE_URL` | No | `http://localhost:5000/api` | Backend API base URL used by the U! frontend |
@@ -100,7 +100,7 @@ The To-Do List Application uses environment variables to configure runtime behav
 Create a `.env` file in the project root with the following content:
 
 ```env
-DATABASE_URL=mongodb://localhost:27017/todo_app
+DATABASE_URL=mongodb://localhost:27017/task_app
 APP_PORT=5000
 # ... see full variable list in the Environment Variables table above
 ```
@@ -134,7 +134,7 @@ The To-Do List Application references the following official Docker images:
 To start a MongoDB 8.0 container for local development:
 
 ```bash
-docker run -d --name todo-mongo -p 27017:27017 mongo:8.0
+docker run -d --name task-mongo -p 27017:27017 mongo:8.0
 ```
 
 > **Note:** Docker is optional for development if MongoDB 8.0.x is installed locally. However, Docker provides a consistent, isolated environment and is the recommended approach for ensuring version compatibility.

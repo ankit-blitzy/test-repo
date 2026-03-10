@@ -58,7 +58,7 @@ Get the To-Do List Application running locally in a few steps. For the complete 
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd todo-list-app
+cd task-list-app
 ```
 
 ```bash
@@ -74,7 +74,7 @@ cd frontend && npm install
 
 ```bash
 # Start MongoDB (Docker option)
-docker run -d -p 27017:27017 --name todo-mongo mongo:8.0
+docker run -d -p 27017:27017 --name task-mongo mongo:8.0
 ```
 
 ```bash
