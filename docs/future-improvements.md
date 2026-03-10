@@ -230,6 +230,7 @@ The following matrix summarizes all planned enhancements with their priority cla
 | Third-Party Integrations | Low | High | Long-Term | Multi-User Collaboration, Notifications |
 
 > **Priority Legend:**
+>
 > - **High** — Directly enhances core task management workflows; high user demand
 > - **Medium** — Expands application capabilities into new usage patterns; moderate user demand
 > - **Low** — Introduces advanced or specialized functionality; lower initial demand but high long-term value

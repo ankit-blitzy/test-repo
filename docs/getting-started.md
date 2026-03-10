@@ -187,7 +187,7 @@ From the project root (with your virtual environment activated), launch the Flas
 flask run --port 5000
 ```
 
-The archie-service-backend API will be available at: **http://localhost:5000**
+The archie-service-backend API will be available at: **<http://localhost:5000>**
 
 > **Tip:** For development, Flask's built-in server provides auto-reload when you modify Python source files. For production, use Gunicorn: `gunicorn -w 4 app:app`
 
@@ -200,7 +200,7 @@ cd frontend
 npm run dev
 ```
 
-The U! frontend application will be available at: **http://localhost:5173** (Vite's default port)
+The U! frontend application will be available at: **<http://localhost:5173>** (Vite's default port)
 
 ### Expected Running Services
 
@@ -236,7 +236,7 @@ A successful response confirms the Flask backend is running and able to process 
 
 Open your browser and navigate to:
 
-```
+```text
 http://localhost:5173
 ```
 

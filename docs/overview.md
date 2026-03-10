@@ -121,7 +121,7 @@ For detailed information on planned enhancements, see [Future Improvements](futu
 
 The To-Do List Application operates within the Blitzx platform's layered architecture, following a clear request flow from the user interface through the API gateway to the data store:
 
-```
+```text
 U! (React 19.x Frontend)  →  archie-service-backend (Flask 3.1.x API)  →  MongoDB 8.0.x
 ```
 
