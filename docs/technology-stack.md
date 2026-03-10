@@ -11,31 +11,22 @@ This document details all technologies powering the To-Do List Application, alig
 The To-Do List Application follows a three-tier architecture. The **U!** frontend delivers the user interface, the **archie-service-backend** handles API logic and business rules, and **MongoDB** provides persistent document storage. The diagram below illustrates how these layers and their constituent technologies are organized.
 
 ```mermaid
-block-beta
-    columns 1
-
-    block:frontend["Frontend — Client Layer (U!)"]
-        columns 4
+flowchart TD
+    subgraph frontend["Frontend — Client Layer (U!)"]
         react["React 19.x"]
         typescript["TypeScript 5.7+"]
         tailwind["TailwindCSS 4.x"]
         vite["Vite 6.x"]
     end
 
-    space
-
-    block:backend["Backend — API Gateway Layer (archie-service-backend)"]
-        columns 4
+    subgraph backend["Backend — API Gateway Layer (archie-service-backend)"]
         python["Python 3.13.x"]
         flask["Flask 3.1.x"]
         gunicorn["Gunicorn"]
         dotenv["python-dotenv"]
     end
 
-    space
-
-    block:database["Database — Data Layer"]
-        columns 3
+    subgraph database["Database — Data Layer"]
         mongodb["MongoDB 8.0.x"]
         pymongo["PyMongo 4.16.x"]
         flaskpymongo["flask-pymongo"]
@@ -268,3 +259,7 @@ The table below lists all technologies in the To-Do List Application stack with 
 - [System Requirements](system-requirements.md) — Runtime prerequisites, environment configuration, and browser compatibility
 - [Data Model](data-model.md) — MongoDB collection schema, field definitions, and indexing strategy
 - [Getting Started](getting-started.md) — Setup instructions including dependency installation and environment configuration
+
+---
+
+*This document is part of the To-Do List Application documentation. Return to the [README](../README.md) for the full documentation index.*

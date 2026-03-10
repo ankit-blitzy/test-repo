@@ -100,19 +100,9 @@ The To-Do List Application uses environment variables to configure runtime behav
 Create a `.env` file in the project root with the following content:
 
 ```env
-# To-Do List Application — Environment Configuration
-
-# Database
 DATABASE_URL=mongodb://localhost:27017/todo_app
-
-# Backend Server
 APP_PORT=5000
-FLASK_ENV=development
-FLASK_DEBUG=1
-
-# Frontend
-NODE_ENV=development
-API_BASE_URL=http://localhost:5000/api
+# ... see full variable list in the Environment Variables table above
 ```
 
 > **Important:** Never commit `.env` files containing sensitive credentials to version control. Add `.env` to your `.gitignore` file. For production deployments, use secure environment variable management provided by your hosting platform.
@@ -144,10 +134,7 @@ The To-Do List Application references the following official Docker images:
 To start a MongoDB 8.0 container for local development:
 
 ```bash
-docker run -d \
-  --name todo-mongo \
-  -p 27017:27017 \
-  mongo:8.0
+docker run -d --name todo-mongo -p 27017:27017 mongo:8.0
 ```
 
 > **Note:** Docker is optional for development if MongoDB 8.0.x is installed locally. However, Docker provides a consistent, isolated environment and is the recommended approach for ensuring version compatibility.
@@ -179,3 +166,7 @@ For additional context and related documentation, refer to:
 ---
 
 *Source: Technical Specification §3.1, §3.2, §3.5, §3.6.3, §3.8*
+
+---
+
+*This document is part of the To-Do List Application documentation. Return to the [README](../README.md) for the full documentation index.*
