@@ -10,7 +10,7 @@
 # Deploy:  mkdocs gh-deploy --force
 #
 # Dependencies:
-#   pip install mkdocs==1.6.1 mkdocs-material==9.7.2 pymdown-extensions==10.14.3 \
+#   pip install mkdocs==1.6.1 mkdocs-material==9.7.2 pymdown-extensions==10.16.1 \
 #              mkdocs-mermaid2-plugin==1.1.1 mkdocs-minify-plugin==0.8.0
 #
 # Source: AAP Sections 0.4.1, 0.5.4, 0.8.1, 0.9.3
@@ -69,7 +69,8 @@ theme:
 # ---------------------------------------------------------------------------
 plugins:
   - search
-  - mermaid2
+  - mermaid2:
+      version: '11.10.0'
   - minify:
       minify_html: true
 

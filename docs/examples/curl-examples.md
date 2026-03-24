@@ -122,7 +122,7 @@ curl -X POST $BASE_URL/api/auth/login \
 
 ```json
 {
-  "authorization_url": "https://YOUR_AUTH0_DOMAIN/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=http://localhost:3000/callback&scope=openid%20profile%20email&state=abc123&code_challenge=xyz789&code_challenge_method=S256",
+  "authorization_url": "https://YOUR_AUTH0_DOMAIN/authorize?response_type=code&client_id=YOUR_AUTH0_CLIENT_ID&redirect_uri=http://localhost:3000/callback&scope=openid%20profile%20email&state=abc123&code_challenge=xyz789&code_challenge_method=S256",
   "state": "abc123"
 }
 ```
@@ -238,7 +238,7 @@ curl -X POST $BASE_URL/api/auth/logout \
 
 ```json
 {
-  "logout_url": "https://YOUR_AUTH0_DOMAIN/v2/logout?client_id=YOUR_CLIENT_ID&returnTo=http://localhost:3000",
+  "logout_url": "https://YOUR_AUTH0_DOMAIN/v2/logout?client_id=YOUR_AUTH0_CLIENT_ID&returnTo=http://localhost:3000",
   "message": "Logout initiated. Redirect to logout_url to complete."
 }
 ```

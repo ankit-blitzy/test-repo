@@ -135,7 +135,7 @@ The Todo Application delegates authentication to [Auth0](https://auth0.com) usin
 | `AUTH0_DOMAIN` | **Yes** | String | — | Your Auth0 tenant domain (e.g., `your-tenant.auth0.com`). Found in the Auth0 Dashboard under Application Settings. |
 | `AUTH0_CLIENT_ID` | **Yes** | String | — | Application client ID from the Auth0 Dashboard. Identifies your application to Auth0. |
 | `AUTH0_CLIENT_SECRET` | **Yes** | String | — | Application client secret from the Auth0 Dashboard. Used by the Flask backend for server-to-server communication. **Keep this secret.** |
-| `AUTH0_AUDIENCE` | **Yes** | String | — | API audience identifier registered in Auth0 (e.g., `https://api.todo-app.com`). Used to scope access tokens. |
+| `AUTH0_AUDIENCE` | **Yes** | String | — | API audience identifier registered in Auth0 (e.g., `https://api.todoapp.com`). Used to scope access tokens. |
 | `AUTH0_CALLBACK_URL` | No | String | `http://localhost:3000/callback` | OAuth 2.0 redirect URI. Auth0 redirects to this URL after successful authentication. |
 | `AUTH0_LOGOUT_URL` | No | String | `http://localhost:3000` | URL to redirect the user to after logging out of Auth0. |
 | `AUTH0_ALGORITHMS` | No | String | `RS256` | JWT signing algorithm used by Auth0. `RS256` (RSA with SHA-256) is the recommended default. |
@@ -146,7 +146,7 @@ Follow these steps to obtain the required Auth0 configuration values:
 
 1. Create a free Auth0 account at [auth0.com](https://auth0.com)
 2. In the Auth0 Dashboard, create a new **Application** with type "Single Page Application" (for the React frontend)
-3. Create a new **API** in the Auth0 Dashboard (e.g., name: "Todo App API", identifier: `https://api.todo-app.com`)
+3. Create a new **API** in the Auth0 Dashboard (e.g., name: "Todo App API", identifier: `https://api.todoapp.com`)
 4. Copy the **Domain**, **Client ID**, **Client Secret**, and **API Audience** values into your `.env` file
 5. In the Application settings, configure:
    - **Allowed Callback URLs:** `http://localhost:3000/callback`
@@ -159,7 +159,7 @@ Follow these steps to obtain the required Auth0 configuration values:
 AUTH0_DOMAIN=your-tenant.auth0.com
 AUTH0_CLIENT_ID=YOUR_AUTH0_CLIENT_ID
 AUTH0_CLIENT_SECRET=YOUR_AUTH0_CLIENT_SECRET
-AUTH0_AUDIENCE=https://api.todo-app.com
+AUTH0_AUDIENCE=https://api.todoapp.com
 AUTH0_CALLBACK_URL=http://localhost:3000/callback
 AUTH0_LOGOUT_URL=http://localhost:3000
 ```
@@ -327,7 +327,7 @@ MONGODB_DB_NAME=todo_app
 AUTH0_DOMAIN=your-tenant.auth0.com
 AUTH0_CLIENT_ID=YOUR_AUTH0_CLIENT_ID
 AUTH0_CLIENT_SECRET=YOUR_AUTH0_CLIENT_SECRET
-AUTH0_AUDIENCE=https://api.todo-app.com
+AUTH0_AUDIENCE=https://api.todoapp.com
 AUTH0_CALLBACK_URL=http://localhost:3000/callback
 AUTH0_LOGOUT_URL=http://localhost:3000
 # AUTH0_ALGORITHMS=RS256
