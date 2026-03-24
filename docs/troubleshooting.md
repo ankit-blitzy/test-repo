@@ -872,7 +872,7 @@ When filing a new GitHub Issue, include the following information to help the ma
 - **Environment details** — Operating system, Python version, Node.js version, Docker version.
 - **Relevant configuration** — Your `.env` settings, **excluding all secrets** (mask `AUTH0_CLIENT_SECRET`, `LLM_API_KEY`, etc.).
 
-See the [Contributing Guide](../CONTRIBUTING.md) for the full issue reporting process.
+See the [Contributing Guide](https://github.com/your-org/todo-app/blob/main/CONTRIBUTING.md) for the full issue reporting process.
 
 ### Useful Diagnostic Commands
 
