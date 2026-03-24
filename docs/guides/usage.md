@@ -52,7 +52,7 @@ Developers can create to-do items programmatically by sending a `POST` request t
 
 ```bash
 curl -X POST http://localhost:5000/api/todos \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Buy groceries",
@@ -124,7 +124,7 @@ Retrieve your to-do items programmatically using `GET` requests:
 ```bash
 # List all to-do items
 curl -X GET "http://localhost:5000/api/todos" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 **List Response** (`200 OK`):
@@ -145,17 +145,21 @@ curl -X GET "http://localhost:5000/api/todos" \
       "user_id": "507f1f77bcf86cd799439012"
     }
   ],
-  "page": 1,
-  "per_page": 20,
-  "total": 1,
-  "total_pages": 1
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 1,
+    "total_pages": 1,
+    "has_next": false,
+    "has_prev": false
+  }
 }
 ```
 
 ```bash
 # Get a specific to-do item by ID
 curl -X GET "http://localhost:5000/api/todos/507f1f77bcf86cd799439011" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 **Detail Response** (`200 OK`):
@@ -203,7 +207,7 @@ The API supports two update methods:
 ```bash
 # Full update (PUT) — replaces all fields
 curl -X PUT "http://localhost:5000/api/todos/TODO_ID" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Buy groceries and snacks",
@@ -217,7 +221,7 @@ curl -X PUT "http://localhost:5000/api/todos/TODO_ID" \
 ```bash
 # Partial update (PATCH) — updates only specified fields
 curl -X PATCH "http://localhost:5000/api/todos/TODO_ID" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"priority": "high"}'
 ```
@@ -253,7 +257,7 @@ Toggle completion status using a `PATCH` request with the `completed` field:
 ```bash
 # Mark a to-do item as complete
 curl -X PATCH "http://localhost:5000/api/todos/TODO_ID" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"completed": true}'
 ```
@@ -261,7 +265,7 @@ curl -X PATCH "http://localhost:5000/api/todos/TODO_ID" \
 ```bash
 # Mark a to-do item as incomplete
 curl -X PATCH "http://localhost:5000/api/todos/TODO_ID" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"completed": false}'
 ```
@@ -287,7 +291,7 @@ When a to-do item is no longer needed, you can permanently remove it from your l
 
 ```bash
 curl -X DELETE "http://localhost:5000/api/todos/TODO_ID" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 **Response:** `204 No Content` — the item has been permanently removed. No response body is returned.
@@ -340,33 +344,35 @@ Apply filters and sorting via query parameters when calling the list endpoint:
 ```bash
 # Filter by completion status and sort by due date (soonest first)
 curl -X GET "http://localhost:5000/api/todos?completed=false&sort=due_date&order=asc" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ```bash
 # Filter by high priority, sort by creation date (newest first)
 curl -X GET "http://localhost:5000/api/todos?priority=high&sort=created_at&order=desc" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ### Pagination
 
-Results are paginated by default. Use the `page` and `per_page` query parameters to control pagination:
+Results are paginated by default. Use the `page` and `limit` query parameters to control pagination:
 
 ```bash
 # Get page 1 with 20 items per page
-curl -X GET "http://localhost:5000/api/todos?page=1&per_page=20" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+curl -X GET "http://localhost:5000/api/todos?page=1&limit=20" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 | Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | `page` | integer | `1` | Page number (1-based) |
-| `per_page` | integer | `20` | Number of items per page (max 100) |
+| `limit` | integer | `20` | Items per page (max 100) |
 | `completed` | boolean | — | Filter by completion status (`true` or `false`) |
 | `priority` | string | — | Filter by priority (`low`, `medium`, `high`) |
 | `sort` | string | `created_at` | Sort field (`created_at`, `due_date`, `priority`, `title`) |
 | `order` | string | `desc` | Sort order (`asc` or `desc`) |
+| `search` | string | — | Full-text search in title and description |
+| `tags` | string | — | Comma-separated tag filter (e.g., `work,urgent`) |
 
 For the complete query parameter reference, see the [API Overview](../api-reference/overview.md).
 
@@ -394,7 +400,7 @@ The search feature lets you find to-do items quickly by matching text content ac
 ```bash
 # Search for to-do items containing "groceries"
 curl -X GET "http://localhost:5000/api/todos?search=groceries" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 The `search` parameter can be combined with other filter and sort parameters:
@@ -402,7 +408,7 @@ The `search` parameter can be combined with other filter and sort parameters:
 ```bash
 # Search for "meeting" among high-priority active items
 curl -X GET "http://localhost:5000/api/todos?search=meeting&priority=high&completed=false" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 > **Tip:** The AI assistant can also help you find and organize items using natural language queries like *"What tasks are related to my marketing project?"*. See the [AI Features Guide](ai-features.md) for details.

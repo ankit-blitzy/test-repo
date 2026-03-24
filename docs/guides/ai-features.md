@@ -121,11 +121,13 @@ Simple query processing provides direct interactions with the LLM for straightfo
 
 ```bash
 curl -X POST "http://localhost:5000/api/ai/query" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "Suggest 5 tasks I should add for a website redesign project",
-    "context": "I am planning a website redesign for my portfolio"
+    "context": {
+      "include_history": false
+    }
   }'
 ```
 
@@ -134,9 +136,16 @@ curl -X POST "http://localhost:5000/api/ai/query" \
 ```json
 {
   "response": "Here are 5 tasks for your website redesign project:\n1. Audit current website performance and content\n2. Create wireframes for new layout\n3. Design responsive mockups for mobile and desktop\n4. Implement new frontend components\n5. Conduct user testing and gather feedback",
-  "processing_type": "simple",
-  "tokens_used": 156,
-  "processing_time_ms": 1250
+  "metadata": {
+    "model": "gpt-4",
+    "processing_time_ms": 1250,
+    "tokens_used": {
+      "prompt": 85,
+      "completion": 71,
+      "total": 156
+    },
+    "processing_pattern": "simple"
+  }
 }
 ```
 
@@ -172,11 +181,11 @@ Retrieval-Augmented Generation (RAG) combines document retrieval from the vector
 
 ```bash
 curl -X POST "http://localhost:5000/api/ai/rag" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "What tasks are related to my marketing campaign?",
-    "max_results": 5
+    "top_k": 5
   }'
 ```
 
@@ -185,14 +194,22 @@ curl -X POST "http://localhost:5000/api/ai/rag" \
 ```json
 {
   "response": "Based on your existing tasks, here are items related to your marketing campaign:\n1. 'Create social media content calendar' (due: 2026-04-15)\n2. 'Design email newsletter template' (due: 2026-04-10)\n3. 'Write blog post about product launch' (completed)\n\nI recommend prioritizing the email newsletter template since it has the earliest due date.",
-  "processing_type": "rag",
   "sources": [
-    {"todo_id": "abc123", "title": "Create social media content calendar", "relevance_score": 0.92},
-    {"todo_id": "def456", "title": "Design email newsletter template", "relevance_score": 0.87},
-    {"todo_id": "ghi789", "title": "Write blog post about product launch", "relevance_score": 0.81}
+    {"id": "507f1f77bcf86cd799439011", "title": "Create social media content calendar", "relevance_score": 0.92},
+    {"id": "507f1f77bcf86cd799439012", "title": "Design email newsletter template", "relevance_score": 0.87},
+    {"id": "507f1f77bcf86cd799439013", "title": "Write blog post about product launch", "relevance_score": 0.81}
   ],
-  "tokens_used": 342,
-  "processing_time_ms": 2100
+  "metadata": {
+    "model": "gpt-4",
+    "processing_time_ms": 2100,
+    "tokens_used": {
+      "prompt": 210,
+      "completion": 132,
+      "total": 342
+    },
+    "processing_pattern": "rag",
+    "documents_retrieved": 3
+  }
 }
 ```
 
@@ -229,11 +246,13 @@ Multi-step agent workflows represent the most powerful AI pattern. LangChain age
 
 ```bash
 curl -X POST "http://localhost:5000/api/ai/agent" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "Break down the task \"Build user authentication\" into subtasks and create them",
-    "allow_actions": true
+    "context": {
+      "allow_mutations": true
+    }
   }'
 ```
 
@@ -242,24 +261,42 @@ curl -X POST "http://localhost:5000/api/ai/agent" \
 ```json
 {
   "response": "I've broken down 'Build user authentication' into 6 subtasks and created them in your task list:\n1. ✅ Set up Auth0 tenant and application (Priority: High)\n2. ✅ Implement login/logout API endpoints (Priority: High)\n3. ✅ Add JWT token validation middleware (Priority: High)\n4. ✅ Create React login/logout components (Priority: Medium)\n5. ✅ Implement token refresh mechanism (Priority: Medium)\n6. ✅ Add role-based access control (Priority: Low)",
-  "processing_type": "agent",
-  "actions_taken": [
-    {"action": "create_todo", "title": "Set up Auth0 tenant and application", "status": "success"},
-    {"action": "create_todo", "title": "Implement login/logout API endpoints", "status": "success"},
-    {"action": "create_todo", "title": "Add JWT token validation middleware", "status": "success"},
-    {"action": "create_todo", "title": "Create React login/logout components", "status": "success"},
-    {"action": "create_todo", "title": "Implement token refresh mechanism", "status": "success"},
-    {"action": "create_todo", "title": "Add role-based access control", "status": "success"}
+  "steps": [
+    {"step": 1, "action": "analyze", "description": "Analyzed 'Build user authentication' and identified 6 subtasks", "status": "completed"},
+    {"step": 2, "action": "create_todo", "description": "Created subtask: Set up Auth0 tenant and application", "status": "completed"},
+    {"step": 3, "action": "create_todo", "description": "Created subtask: Implement login/logout API endpoints", "status": "completed"},
+    {"step": 4, "action": "create_todo", "description": "Created subtask: Add JWT token validation middleware", "status": "completed"},
+    {"step": 5, "action": "create_todo", "description": "Created subtask: Create React login/logout components", "status": "completed"},
+    {"step": 6, "action": "create_todo", "description": "Created subtask: Implement token refresh mechanism", "status": "completed"},
+    {"step": 7, "action": "create_todo", "description": "Created subtask: Add role-based access control", "status": "completed"},
+    {"step": 8, "action": "generate_schedule", "description": "Compiled final summary of created subtasks", "status": "completed"}
   ],
-  "steps_executed": 8,
-  "tokens_used": 1245,
-  "processing_time_ms": 8500
+  "mutations": [
+    {"action": "create", "resource": "todo", "id": "507f1f77bcf86cd799439020", "title": "Set up Auth0 tenant and application"},
+    {"action": "create", "resource": "todo", "id": "507f1f77bcf86cd799439021", "title": "Implement login/logout API endpoints"},
+    {"action": "create", "resource": "todo", "id": "507f1f77bcf86cd799439022", "title": "Add JWT token validation middleware"},
+    {"action": "create", "resource": "todo", "id": "507f1f77bcf86cd799439023", "title": "Create React login/logout components"},
+    {"action": "create", "resource": "todo", "id": "507f1f77bcf86cd799439024", "title": "Implement token refresh mechanism"},
+    {"action": "create", "resource": "todo", "id": "507f1f77bcf86cd799439025", "title": "Add role-based access control"}
+  ],
+  "metadata": {
+    "model": "gpt-4",
+    "processing_time_ms": 8500,
+    "tokens_used": {
+      "prompt": 520,
+      "completion": 725,
+      "total": 1245
+    },
+    "processing_pattern": "agent",
+    "steps_executed": 8,
+    "steps_limit": 5
+  }
 }
 ```
 
-> **⚠️ Warning:** When `allow_actions` is `true`, the agent can create, update, or delete to-do items on your behalf.
-> Review the agent's actions in the response to verify they match your expectations.
-> Set `allow_actions` to `false` if you only want planning suggestions without modifications to your task list.
+> **⚠️ Warning:** When `allow_mutations` is `true`, the agent can create, update, or delete to-do items on your behalf.
+> Review the agent's mutations in the response to verify they match your expectations.
+> Set `allow_mutations` to `false` (the default) if you only want planning suggestions without modifications to your task list.
 
 For the full API specification including all request parameters and status codes, see the [AI API Endpoints](../api-reference/ai.md#agent-query).
 
@@ -295,7 +332,7 @@ When you submit a natural language description, the AI:
 
 ```bash
 curl -X POST "http://localhost:5000/api/ai/query" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "Create a task: Review pull requests for the authentication module by end of day, high priority",
@@ -358,7 +395,7 @@ The AI analyzes your task list and suggests optimal priority assignments and wor
 
 ```bash
 curl -X POST "http://localhost:5000/api/ai/query" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "Analyze my tasks and suggest what I should prioritize today"
@@ -370,7 +407,17 @@ curl -X POST "http://localhost:5000/api/ai/query" \
 ```json
 {
   "response": "Based on your current task list, here's my prioritization suggestion for today:\n\n🔴 **High Priority:**\n1. 'Fix authentication bug' — Due today, marked urgent\n2. 'Submit quarterly report' — Due tomorrow\n\n🟡 **Medium Priority:**\n3. 'Review design mockups' — Due in 3 days, blocking other tasks\n\n🟢 **Can Wait:**\n4. 'Update README' — Due next week\n5. 'Research new testing framework' — No due date",
-  "processing_type": "rag"
+  "metadata": {
+    "model": "gpt-4",
+    "processing_time_ms": 2800,
+    "tokens_used": {
+      "prompt": 320,
+      "completion": 185,
+      "total": 505
+    },
+    "processing_pattern": "rag",
+    "documents_retrieved": 5
+  }
 }
 ```
 
@@ -451,7 +498,7 @@ Create a to-do item with a single sentence:
 
 ```bash
 curl -X POST "http://localhost:5000/api/ai/query" \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "query": "Suggest 3 tasks for improving code quality"
@@ -464,7 +511,7 @@ curl -X POST "http://localhost:5000/api/ai/query" \
 import requests
 
 BASE_URL = "http://localhost:5000"
-TOKEN = "YOUR_JWT_TOKEN"
+TOKEN = "YOUR_ACCESS_TOKEN"
 
 headers = {
     "Authorization": f"Bearer {TOKEN}",
@@ -486,7 +533,7 @@ rag_response = requests.post(
     headers=headers,
     json={
         "query": "What tasks are related to my frontend project?",
-        "max_results": 5
+        "top_k": 5
     }
 )
 rag_data = rag_response.json()
@@ -514,7 +561,7 @@ for source in rag_data.get("sources", []):
 - **Review AI-created tasks** — Always verify that agent-created to-do items match your expectations before marking them as final.
 - **Monitor token usage** — Check the `tokens_used` field in API responses to track consumption and manage costs.
 - **Use RAG for context-dependent questions** — When you need answers based on your existing tasks or documents, use the RAG endpoint for more accurate, grounded responses.
-- **Set `allow_actions` carefully** — Only enable `allow_actions: true` in agent requests when you want the AI to modify your task list directly.
+- **Set `allow_mutations` carefully** — Only enable `allow_mutations: true` in agent requests when you want the AI to modify your task list directly.
 
 ### Next Steps
 

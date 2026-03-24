@@ -410,7 +410,7 @@ print(f"Redirect user to complete logout: {logout_url}")
 **JavaScript:**
 
 ```javascript
-const accessToken = "YOUR_ACCESS_TOKEN";
+let accessToken = "YOUR_ACCESS_TOKEN";
 
 const response = await fetch("http://localhost:5000/api/auth/logout", {
   method: "POST",

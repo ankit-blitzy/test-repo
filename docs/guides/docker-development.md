@@ -112,7 +112,6 @@ services:
       - ./requirements.txt:/app/requirements.txt
     environment:
       - FLASK_APP=src/app.py
-      - FLASK_ENV=development
       - FLASK_DEBUG=1
       - MONGODB_URI=mongodb://mongodb:27017/todo_app
     env_file:
@@ -186,8 +185,7 @@ The Flask backend service builds from the project root `Dockerfile` and runs the
 | Source Volume | `./src:/app/src` | Bind mount for backend source code (enables hot-reload) |
 | Deps Volume | `./requirements.txt:/app/requirements.txt` | Bind mount for Python dependencies |
 | `FLASK_APP` | `src/app.py` | Flask application entry point |
-| `FLASK_ENV` | `development` | Enables development mode |
-| `FLASK_DEBUG` | `1` | Enables auto-restart on code changes |
+| `FLASK_DEBUG` | `1` | Enables debug mode and auto-restart on code changes |
 | `MONGODB_URI` | `mongodb://mongodb:27017/todo_app` | Connects to MongoDB using Docker network hostname |
 | Env File | `.env` | Loads Auth0 credentials, LLM API keys, and other secrets |
 | Dependency | `mongodb` (service_healthy) | Waits for MongoDB health check to pass |
@@ -320,7 +318,6 @@ The following variables are set directly in `docker-compose.yml` for the Docker 
 | --- | --- | --- |
 | `MONGODB_URI` | `mongodb://mongodb:27017/todo_app` | MongoDB connection string using Docker network hostname |
 | `FLASK_APP` | `src/app.py` | Flask application entry point |
-| `FLASK_ENV` | `development` | Flask environment mode |
 | `FLASK_DEBUG` | `1` | Enables debug mode and auto-reload |
 | `REACT_APP_API_URL` | `http://localhost:5000` | Backend API URL for the frontend |
 

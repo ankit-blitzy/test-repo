@@ -341,7 +341,7 @@ Logging out terminates both the local application session and the Auth0 session,
 
    ```bash
    POST /api/auth/logout
-   Authorization: Bearer YOUR_JWT_TOKEN
+   Authorization: Bearer YOUR_ACCESS_TOKEN
    ```
 
 4. The frontend redirects the user's browser to the Auth0 logout endpoint:
@@ -745,8 +745,8 @@ const TodoList: React.FC = () => {
           throw new Error(`API error: ${response.status}`);
         }
 
-        const data = await response.json();
-        setTodos(data.items);
+        const result = await response.json();
+        setTodos(result.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch todos");
       }
