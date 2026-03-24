@@ -108,6 +108,11 @@ markdown_extensions:
 # All paths are relative to the docs_dir (docs/) directory.
 # Each entry maps to a file under docs/ on disk.
 # Example: getting-started/installation.md -> docs/getting-started/installation.md
+#
+# Note: README.md and CONTRIBUTING.md are root-level repository files outside
+# the docs_dir. They are accessed directly via the GitHub repository and are
+# not included in the MkDocs navigation tree. The repo_url above provides
+# a link to the repository for accessing these files.
 # ---------------------------------------------------------------------------
 nav:
   - Home: index.md

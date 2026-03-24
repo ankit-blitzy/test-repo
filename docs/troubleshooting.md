@@ -176,12 +176,14 @@ This guide covers common issues encountered during setup, development, and usage
    kill -9 <PID>
    ```
 
-3. Alternatively, change the port in your `.env` file:
+3. Alternatively, change the application port in your `.env` file:
 
    ```bash
+   # Change the Flask backend port (non-Docker)
    APP_PORT=5001
-   REACT_PORT=3001
    ```
+
+   For Docker environments, use the Docker-specific port variables (`FLASK_PORT`, `REACT_PORT`, `MONGODB_PORT`) described in the [Container Port Conflicts](#container-port-conflicts) section below.
 
 See the [Configuration Reference](getting-started/configuration.md) for all port configuration options.
 
@@ -537,7 +539,7 @@ See the [API Overview](api-reference/overview.md) for complete API conventions a
    docker stop $(docker ps -q)
    ```
 
-2. Alternatively, change the port mapping in `docker-compose.yml` or your `.env` file:
+2. Alternatively, change the Docker port mappings in your `.env` file. These variables are documented in the [Infrastructure Configuration](getting-started/configuration.md#infrastructure-configuration) section:
 
    ```bash
    FLASK_PORT=5001

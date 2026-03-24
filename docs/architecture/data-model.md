@@ -40,7 +40,6 @@ erDiagram
     USERS ||--o{ DOCUMENTS : "creates"
     CONVERSATIONS ||--o{ EMBEDDINGS : "generates"
     DOCUMENTS ||--o{ EMBEDDINGS : "indexes"
-    MODEL_CONFIG ||--|| USERS : "configured_by"
 
     USERS {
         ObjectId _id PK
@@ -109,7 +108,7 @@ erDiagram
     }
 ```
 
-> **Relationship cardinality:** A user can own many to-do items, initiate many conversations, and create many documents. Conversations and documents can generate multiple embeddings. Model configuration is managed by admin users.
+> **Relationship cardinality:** A user can own many to-do items, initiate many conversations, and create many documents. Conversations and documents can generate multiple embeddings. The `model_config` collection stores global AI/LLM configuration and is not linked to individual users in the schema.
 
 ---
 
