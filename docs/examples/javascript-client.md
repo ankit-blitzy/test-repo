@@ -13,8 +13,8 @@ All code uses modern JavaScript (ES2022+) with async/await and is copy-paste rea
 - [Library Choices](#library-choices)
 - [Setup and Configuration](#setup-and-configuration)
 - [Authentication](#authentication)
-- [Todo Operations (fetch)](#todo-operations-fetch)
-- [Todo Operations (axios)](#todo-operations-axios)
+- [To-Do Operations (fetch)](#to-do-operations-fetch)
+- [To-Do Operations (axios)](#to-do-operations-axios)
 - [User Profile](#user-profile)
 - [AI Processing](#ai-processing)
 - [Complete API Client Class](#complete-api-client-class)
@@ -313,13 +313,13 @@ async function apiLogout(token) {
 
 ---
 
-## Todo Operations (fetch)
+## To-Do Operations (fetch)
 
 CRUD operations for to-do items using the built-in `fetch` API and the `apiRequest` helper defined in [Setup and Configuration](#setup-and-configuration).
 
-See [Todo Endpoints](../api-reference/todos.md) for the full API specification including request schemas, response fields, and status codes.
+See [To-Do Endpoints](../api-reference/todos.md) for the full API specification including request schemas, response fields, and status codes.
 
-### Create a Todo
+### Create a To-Do
 
 ```javascript
 async function createTodo(token, todoData) {
@@ -342,7 +342,7 @@ const newTodo = await createTodo(token, {
 });
 ```
 
-### List Todos
+### List To-Dos
 
 Retrieve a paginated list of to-do items with optional filtering, sorting, and search:
 
@@ -382,7 +382,7 @@ const page2 = await listTodos(token, { page: 2, limit: 10 });
 const searchResults = await listTodos(token, { search: "review" });
 ```
 
-### Get a Single Todo
+### Get a Single To-Do
 
 ```javascript
 async function getTodo(token, todoId) {
@@ -394,7 +394,7 @@ const todo = await getTodo(token, "507f1f77bcf86cd799439011");
 console.log(`${todo.title} — ${todo.completed ? "Done" : "Pending"}`);
 ```
 
-### Update a Todo (Full Replacement)
+### Update a To-Do (Full Replacement)
 
 Replace the entire to-do item with the provided data. All fields must be included:
 
@@ -441,7 +441,7 @@ await patchTodo(token, "507f1f77bcf86cd799439011", {
 });
 ```
 
-### Delete a Todo
+### Delete a To-Do
 
 ```javascript
 async function deleteTodo(token, todoId) {
@@ -455,7 +455,7 @@ await deleteTodo(token, "507f1f77bcf86cd799439011");
 
 ---
 
-## Todo Operations (axios)
+## To-Do Operations (axios)
 
 The same CRUD operations using `axios` with interceptors for automatic token injection and centralized error handling. This approach is recommended for larger applications that benefit from request/response interceptors.
 
@@ -1156,7 +1156,7 @@ See the [Troubleshooting Guide](../troubleshooting.md) for common error scenario
 
 TypeScript interfaces for all API request and response data models. Use these types for full type safety in TypeScript projects:
 
-### Todo Types
+### To-Do Types
 
 ```typescript
 /** A single to-do item returned by the API */
@@ -1235,6 +1235,7 @@ interface User {
 interface UserPreferences {
   theme: "light" | "dark";
   notifications: boolean;
+  language: string;
   default_priority: "low" | "medium" | "high";
   timezone: string;
 }
@@ -1333,4 +1334,4 @@ interface ApiErrorResponse {
 
 > **Note:** These types align with the API response schemas documented in the [API Reference](../api-reference/overview.md).
 > For the most authoritative field definitions, refer to the individual endpoint documentation:
-> [Todos](../api-reference/todos.md), [Users](../api-reference/users.md), [Auth](../api-reference/auth.md), [AI](../api-reference/ai.md).
+> [To-Dos](../api-reference/todos.md), [Users](../api-reference/users.md), [Auth](../api-reference/auth.md), [AI](../api-reference/ai.md).

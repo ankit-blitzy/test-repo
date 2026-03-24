@@ -234,7 +234,7 @@ Multi-step agent workflows represent the most powerful AI pattern. LangChain age
 
 1. The query is classified as requiring multi-step processing.
 2. A LangChain agent is initialized with available tools:
-   - **Todo Tool** — Create, read, update, and delete to-do items
+   - **To-Do Tool** — Create, read, update, and delete to-do items
    - **Search Tool** — Search existing to-do items and documents
    - **Analysis Tool** — Analyze task patterns, statistics, and completion trends
 3. The agent creates an execution plan.

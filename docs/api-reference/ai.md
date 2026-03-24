@@ -554,26 +554,28 @@ When `allow_mutations` is set to `true` and the agent creates, updates, or delet
 The response `mutations` array would contain:
 
 ```json
-"mutations": [
-  {
-    "action": "create",
-    "resource": "todo",
-    "id": "507f1f77bcf86cd799439020",
-    "title": "Design social media assets for campaign"
-  },
-  {
-    "action": "create",
-    "resource": "todo",
-    "id": "507f1f77bcf86cd799439021",
-    "title": "Draft email campaign sequence"
-  },
-  {
-    "action": "create",
-    "resource": "todo",
-    "id": "507f1f77bcf86cd799439022",
-    "title": "Prepare analytics dashboard for KPI tracking"
-  }
-]
+{
+  "mutations": [
+    {
+      "action": "create",
+      "resource": "todo",
+      "id": "507f1f77bcf86cd799439020",
+      "title": "Design social media assets for campaign"
+    },
+    {
+      "action": "create",
+      "resource": "todo",
+      "id": "507f1f77bcf86cd799439021",
+      "title": "Draft email campaign sequence"
+    },
+    {
+      "action": "create",
+      "resource": "todo",
+      "id": "507f1f77bcf86cd799439022",
+      "title": "Prepare analytics dashboard for KPI tracking"
+    }
+  ]
+}
 ```
 
 > **Note:** When `allow_mutations` is `false` (the default), the `mutations` array is always empty. The agent performs read-only analysis and generates suggestions without modifying any data.

@@ -1,17 +1,17 @@
-# Todo Endpoints
+# To-Do Endpoints
 
 Complete REST API reference for creating, reading, updating, and deleting to-do items.
 
 All endpoints in this section are prefixed with `/api/todos`.
-Every request to a todo endpoint requires a valid Bearer JWT token in the `Authorization` header.
+Every request to a to-do endpoint requires a valid Bearer JWT token in the `Authorization` header.
 See the [API Overview](overview.md) for authentication details, request/response conventions, and error handling patterns.
 See [Authentication Endpoints](auth.md) for token acquisition.
 
 *Source: Tech Spec Sections 6.1, 6.2*
 
-## Todo Resource
+## To-Do Resource
 
-The todo resource represents a single to-do item owned by the authenticated user. All todo objects share the following JSON structure:
+The to-do resource represents a single to-do item owned by the authenticated user. All to-do objects share the following JSON structure:
 
 ```json
 {
@@ -31,7 +31,7 @@ The todo resource represents a single to-do item owned by the authenticated user
 | Field | Type | Description |
 | --- | --- | --- |
 | `id` | string | Unique identifier (MongoDB ObjectId, 24-character hex) |
-| `title` | string | Todo title (required, max 200 characters) |
+| `title` | string | To-do title (required, max 200 characters) |
 | `description` | string | Detailed description (optional, max 2000 characters) |
 | `completed` | boolean | Completion status (default: `false`) |
 | `priority` | string | Priority level: `low`, `medium`, or `high` (default: `medium`) |
@@ -44,19 +44,19 @@ The todo resource represents a single to-do item owned by the authenticated user
 ## Table of Contents
 
 - [Request Flow](#request-flow)
-- [Create Todo](#create-todo)
-- [List Todos](#list-todos)
-- [Get Todo](#get-todo)
-- [Update Todo](#update-todo)
-- [Partial Update Todo](#partial-update-todo)
-- [Delete Todo](#delete-todo)
+- [Create To-Do](#create-to-do)
+- [List To-Dos](#list-to-dos)
+- [Get To-Do](#get-to-do)
+- [Update To-Do](#update-to-do)
+- [Partial Update To-Do](#partial-update-to-do)
+- [Delete To-Do](#delete-to-do)
 - [Error Responses](#error-responses)
 
 ---
 
 ## Request Flow
 
-The following sequence diagram illustrates the typical request flow for todo CRUD operations.
+The following sequence diagram illustrates the typical request flow for to-do CRUD operations.
 Every request follows the same pattern: the client sends a request with a Bearer JWT token, the Flask API validates the token,
 delegates to the TodoService for business logic and input validation, and the TodoService interacts with MongoDB for persistence.
 
@@ -97,7 +97,7 @@ sequenceDiagram
 
 ---
 
-## Create Todo
+## Create To-Do
 
 Creates a new to-do item for the authenticated user. The server generates the `id`, `created_at`, `updated_at`, and `user_id` fields automatically. The `completed` field defaults to `false`.
 
@@ -120,7 +120,7 @@ POST /api/todos
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `title` | string | Yes | Todo title (max 200 characters) |
+| `title` | string | Yes | To-do title (max 200 characters) |
 | `description` | string | No | Detailed description (max 2000 characters) |
 | `priority` | string | No | Priority level: `low`, `medium`, `high` (default: `medium`) |
 | `due_date` | string | No | Due date in ISO 8601 format (e.g., `2026-04-01T17:00:00Z`) |
@@ -140,7 +140,7 @@ POST /api/todos
 
 ### Response Body (201 Created)
 
-Returns the full todo object with all server-generated fields:
+Returns the full to-do object with all server-generated fields:
 
 ```json
 {
@@ -161,7 +161,7 @@ Returns the full todo object with all server-generated fields:
 
 | Status Code | Description |
 | --- | --- |
-| `201 Created` | Todo successfully created |
+| `201 Created` | To-do successfully created |
 | `400 Bad Request` | Invalid request body or missing required fields |
 | `401 Unauthorized` | Missing or invalid authentication token |
 | `422 Unprocessable Entity` | Validation failed (e.g., title exceeds 200 characters) |
@@ -231,7 +231,7 @@ console.log(todo);
 
 ---
 
-## List Todos
+## List To-Dos
 
 Retrieves a paginated list of to-do items for the authenticated user. Supports filtering by completion status, priority, and tags, as well as sorting and full-text search across titles and descriptions.
 
@@ -264,7 +264,7 @@ GET /api/todos
 
 ### Response Body (200 OK)
 
-Returns a paginated response containing an array of todo objects and pagination metadata:
+Returns a paginated response containing an array of to-do objects and pagination metadata:
 
 ```json
 {
@@ -311,7 +311,7 @@ See [API Overview — Pagination](overview.md#pagination) for details on the pag
 
 | Status Code | Description |
 | --- | --- |
-| `200 OK` | Todos retrieved successfully |
+| `200 OK` | To-dos retrieved successfully |
 | `401 Unauthorized` | Missing or invalid authentication token |
 | `500 Internal Server Error` | Server-side error |
 
@@ -395,7 +395,7 @@ filteredTodos.data.forEach(todo => {
 
 ---
 
-## Get Todo
+## Get To-Do
 
 Retrieves a single to-do item by its unique identifier. Users can only access their own to-do items — attempting to access another user's item returns `403 Forbidden`.
 
@@ -417,11 +417,11 @@ GET /api/todos/:id
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | string | Yes | The todo's unique identifier (MongoDB ObjectId, 24-character hex) |
+| `id` | string | Yes | The to-do's unique identifier (MongoDB ObjectId, 24-character hex) |
 
 ### Response Body (200 OK)
 
-Returns the full todo object:
+Returns the full to-do object:
 
 ```json
 {
@@ -442,13 +442,13 @@ Returns the full todo object:
 
 | Status Code | Description |
 | --- | --- |
-| `200 OK` | Todo retrieved successfully |
+| `200 OK` | To-do retrieved successfully |
 | `401 Unauthorized` | Missing or invalid authentication token |
 | `403 Forbidden` | Authenticated but not authorized to access this to-do item (belongs to another user) |
 | `404 Not Found` | No to-do item found with the specified ID |
 | `500 Internal Server Error` | Server-side error |
 
-> **Note:** Users can only access their own to-do items. The API validates that the `user_id` on the todo matches the authenticated user's ID. If the todo belongs to a different user, the API returns `403 Forbidden` rather than `404 Not Found` to explicitly indicate an authorization failure.
+> **Note:** Users can only access their own to-do items. The API validates that the `user_id` on the to-do matches the authenticated user's ID. If the to-do belongs to a different user, the API returns `403 Forbidden` rather than `404 Not Found` to explicitly indicate an authorization failure.
 
 ### Examples
 
@@ -507,11 +507,11 @@ if (response.ok) {
 
 ---
 
-## Update Todo
+## Update To-Do
 
 Replaces a to-do item with the provided data. This is a full replacement operation — all writable fields must be provided. Fields not included in the request body are reset to their default values. The server automatically updates the `updated_at` timestamp.
 
-For updating only specific fields without affecting others, use [Partial Update Todo](#partial-update-todo) instead.
+For updating only specific fields without affecting others, use [Partial Update To-Do](#partial-update-to-do) instead.
 
 **Method and URL:**
 
@@ -532,15 +532,15 @@ PUT /api/todos/:id
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | string | Yes | The todo's unique identifier (MongoDB ObjectId, 24-character hex) |
+| `id` | string | Yes | The to-do's unique identifier (MongoDB ObjectId, 24-character hex) |
 
 ### Request Body
 
-The request body follows the same schema as [Create Todo](#create-todo). All writable fields should be provided for a complete replacement:
+The request body follows the same schema as [Create To-Do](#create-to-do). All writable fields should be provided for a complete replacement:
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `title` | string | Yes | Todo title (max 200 characters) |
+| `title` | string | Yes | To-do title (max 200 characters) |
 | `description` | string | No | Detailed description (max 2000 characters) |
 | `completed` | boolean | No | Completion status (default: `false`) |
 | `priority` | string | No | Priority level: `low`, `medium`, `high` (default: `medium`) |
@@ -562,7 +562,7 @@ The request body follows the same schema as [Create Todo](#create-todo). All wri
 
 ### Response Body (200 OK)
 
-Returns the updated todo object with the new `updated_at` timestamp:
+Returns the updated to-do object with the new `updated_at` timestamp:
 
 ```json
 {
@@ -583,7 +583,7 @@ Returns the updated todo object with the new `updated_at` timestamp:
 
 | Status Code | Description |
 | --- | --- |
-| `200 OK` | Todo successfully updated |
+| `200 OK` | To-do successfully updated |
 | `400 Bad Request` | Invalid request body or missing required fields |
 | `401 Unauthorized` | Missing or invalid authentication token |
 | `403 Forbidden` | Authenticated but not authorized to update this to-do item |
@@ -664,7 +664,7 @@ console.log(updatedTodo);
 
 ---
 
-## Partial Update Todo
+## Partial Update To-Do
 
 Updates specific fields of a to-do item without replacing the entire resource. Only the fields included in the request body are modified — all other fields retain their current values. The server automatically updates the `updated_at` timestamp.
 
@@ -689,7 +689,7 @@ PATCH /api/todos/:id
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | string | Yes | The todo's unique identifier (MongoDB ObjectId, 24-character hex) |
+| `id` | string | Yes | The to-do's unique identifier (MongoDB ObjectId, 24-character hex) |
 
 ### Request Body
 
@@ -697,7 +697,7 @@ Include only the fields you want to update. All fields are optional:
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `title` | string | No | Todo title (max 200 characters) |
+| `title` | string | No | To-do title (max 200 characters) |
 | `description` | string | No | Detailed description (max 2000 characters) |
 | `completed` | boolean | No | Completion status |
 | `priority` | string | No | Priority level: `low`, `medium`, `high` |
@@ -723,7 +723,7 @@ Include only the fields you want to update. All fields are optional:
 
 ### Response Body (200 OK)
 
-Returns the updated todo object with the new `updated_at` timestamp:
+Returns the updated to-do object with the new `updated_at` timestamp:
 
 ```json
 {
@@ -744,7 +744,7 @@ Returns the updated todo object with the new `updated_at` timestamp:
 
 | Status Code | Description |
 | --- | --- |
-| `200 OK` | Todo successfully updated |
+| `200 OK` | To-do successfully updated |
 | `400 Bad Request` | Invalid request body |
 | `401 Unauthorized` | Missing or invalid authentication token |
 | `403 Forbidden` | Authenticated but not authorized to update this to-do item |
@@ -810,7 +810,7 @@ console.log(`Updated at: ${updatedTodo.updated_at}`);
 
 ---
 
-## Delete Todo
+## Delete To-Do
 
 Permanently deletes a to-do item. This action is irreversible — the item cannot be recovered after deletion. Users can only delete their own to-do items.
 
@@ -832,7 +832,7 @@ DELETE /api/todos/:id
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | string | Yes | The todo's unique identifier (MongoDB ObjectId, 24-character hex) |
+| `id` | string | Yes | The to-do's unique identifier (MongoDB ObjectId, 24-character hex) |
 
 ### Response Body (204 No Content)
 
@@ -842,7 +842,7 @@ No response body is returned on successful deletion.
 
 | Status Code | Description |
 | --- | --- |
-| `204 No Content` | Todo successfully deleted |
+| `204 No Content` | To-do successfully deleted |
 | `401 Unauthorized` | Missing or invalid authentication token |
 | `403 Forbidden` | Authenticated but not authorized to delete this to-do item |
 | `404 Not Found` | No to-do item found with the specified ID |
@@ -902,7 +902,7 @@ if (response.status === 204) {
 
 ## Error Responses
 
-All todo endpoints use the standard error response format defined in the [API Overview](overview.md#error-responses). Errors include a machine-readable error code, a human-readable message, and optional field-level validation details.
+All to-do endpoints use the standard error response format defined in the [API Overview](overview.md#error-responses). Errors include a machine-readable error code, a human-readable message, and optional field-level validation details.
 
 ### Error Response Format
 
@@ -923,7 +923,7 @@ All todo endpoints use the standard error response format defined in the [API Ov
 
 ### Common Error Scenarios
 
-The following table lists error scenarios specific to todo endpoints:
+The following table lists error scenarios specific to to-do endpoints:
 
 | Scenario | Status Code | Error Code | Example Message |
 | --- | --- | --- | --- |
@@ -932,7 +932,7 @@ The following table lists error scenarios specific to todo endpoints:
 | Description exceeds 2000 characters | `422` | `VALIDATION_ERROR` | `"Description must not exceed 2000 characters"` |
 | Invalid priority value | `422` | `VALIDATION_ERROR` | `"Priority must be one of: low, medium, high"` |
 | Invalid date format for due_date | `422` | `INVALID_FORMAT` | `"due_date must be a valid ISO 8601 datetime"` |
-| Todo not found | `404` | `NOT_FOUND` | `"No todo found with the specified ID"` |
+| To-do not found | `404` | `NOT_FOUND` | `"No todo found with the specified ID"` |
 | Accessing another user's to-do item | `403` | `FORBIDDEN` | `"You do not have permission to access this todo"` |
 | Invalid or expired authentication token | `401` | `INVALID_TOKEN` | `"Authentication token is invalid or expired"` |
 | Malformed JSON request body | `400` | `INVALID_FORMAT` | `"Request body contains invalid JSON"` |

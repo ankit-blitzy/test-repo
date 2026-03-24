@@ -182,7 +182,7 @@ Stores user profiles synchronized from Auth0. Contains CSFLE-encrypted fields fo
 | `email` | `String` | Yes | — | CSFLE: Deterministic | User email address |
 | `name` | `String` | No | `""` | None | Display name |
 | `avatar_url` | `String` | No | `null` | None | Profile picture URL |
-| `preferences` | `Object` | No | `{}` | CSFLE: Random | User preferences (theme, notifications, language) |
+| `preferences` | `Object` | No | `{}` | CSFLE: Random | User preferences (theme, notifications, language, default_priority, timezone) |
 | `roles` | `Array[String]` | Yes | `["user"]` | None | Assigned roles: `"user"`, `"admin"` |
 | `last_login` | `DateTime` | No | `null` | None | Last login timestamp |
 | `created_at` | `DateTime` | Yes | Current time | None | Account creation timestamp |
@@ -213,7 +213,9 @@ For full CSFLE implementation details, see the [Security Architecture](security.
   "preferences": {
     "theme": "dark",
     "notifications": true,
-    "language": "en"
+    "language": "en",
+    "default_priority": "medium",
+    "timezone": "America/New_York"
   },
   "roles": ["user"],
   "last_login": "2026-03-24T09:30:00Z",

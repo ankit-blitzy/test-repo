@@ -21,6 +21,7 @@ The User resource represents a registered account in the Todo Application. Each 
   "preferences": {
     "theme": "string (light | dark, default: light)",
     "notifications": "boolean (default: true)",
+    "language": "string (ISO 639-1 code, default: en)",
     "default_priority": "string (low | medium | high, default: medium)",
     "timezone": "string (IANA timezone, default: UTC)"
   },
@@ -41,6 +42,7 @@ The User resource represents a registered account in the Todo Application. Each 
 | `preferences` | object | User-configurable application preferences |
 | `preferences.theme` | string | UI color theme: `light` or `dark`. Defaults to `light`. |
 | `preferences.notifications` | boolean | Whether in-app notifications are enabled. Defaults to `true`. |
+| `preferences.language` | string | Preferred language as an ISO 639-1 code (e.g., `en`, `es`, `fr`). Defaults to `en`. |
 | `preferences.default_priority` | string | Default priority assigned to new to-do items: `low`, `medium`, or `high`. Defaults to `medium`. |
 | `preferences.timezone` | string | User's timezone in IANA format (e.g., `America/New_York`). Defaults to `UTC`. |
 | `created_at` | string | Timestamp when the user account was created (ISO 8601, UTC) |
@@ -93,6 +95,7 @@ The full user profile object:
   "preferences": {
     "theme": "dark",
     "notifications": true,
+    "language": "en",
     "default_priority": "medium",
     "timezone": "America/New_York"
   },
@@ -181,6 +184,7 @@ PUT /api/users/me
 | `preferences` | object | No | User preferences object (partial updates supported) |
 | `preferences.theme` | string | No | UI theme: `light` or `dark` |
 | `preferences.notifications` | boolean | No | Enable or disable notifications |
+| `preferences.language` | string | No | Preferred language as ISO 639-1 code (e.g., `en`, `es`) |
 | `preferences.default_priority` | string | No | Default priority for new to-do items: `low`, `medium`, or `high` |
 | `preferences.timezone` | string | No | User's timezone in IANA format (e.g., `America/New_York`) |
 
@@ -211,6 +215,7 @@ The updated user profile object. The `updated_at` timestamp reflects the time of
   "preferences": {
     "theme": "dark",
     "notifications": true,
+    "language": "en",
     "default_priority": "high",
     "timezone": "America/New_York"
   },

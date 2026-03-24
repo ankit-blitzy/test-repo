@@ -12,7 +12,7 @@ This guide provides ready-to-use Python scripts covering authentication, to-do C
 - [Library Choices](#library-choices)
 - [Setup and Configuration](#setup-and-configuration)
 - [Authentication](#authentication)
-- [Todo Operations](#todo-operations)
+- [To-Do Operations](#to-do-operations)
 - [User Profile](#user-profile)
 - [AI Processing](#ai-processing)
 - [Complete Client Class](#complete-client-class)
@@ -23,7 +23,7 @@ This guide provides ready-to-use Python scripts covering authentication, to-do C
 
 - [API Overview](../api-reference/overview.md) — API conventions, authentication, and error handling
 - [Authentication Endpoints](../api-reference/auth.md) — Full auth endpoint reference
-- [Todo Endpoints](../api-reference/todos.md) — Full to-do endpoint reference
+- [To-Do Endpoints](../api-reference/todos.md) — Full to-do endpoint reference
 - [User Endpoints](../api-reference/users.md) — Full user endpoint reference
 - [AI Endpoints](../api-reference/ai.md) — Full AI endpoint reference
 - [Configuration Reference](../getting-started/configuration.md) — Environment variables
@@ -35,7 +35,7 @@ This guide provides ready-to-use Python scripts covering authentication, to-do C
 
 Before running the examples in this guide, ensure you have the following:
 
-- **Python 3.10+** installed (examples use f-strings, type hints with `|` union syntax, and modern syntax)
+- **Python 3.13** installed (examples use f-strings, type hints with `|` union syntax, and modern syntax)
 - **`requests`** library installed for synchronous HTTP calls
 - **`httpx`** library installed for async HTTP calls (optional — only needed for the [Async Examples](#async-examples-httpx) section)
 - **`python-dotenv`** library installed for environment variable management
@@ -264,11 +264,11 @@ def logout(base_url: str, token: str) -> dict:
 
 ---
 
-## Todo Operations
+## To-Do Operations
 
-These functions cover the full lifecycle of to-do items: create, list, get, update, partial update, and delete. See [Todo Endpoints](../api-reference/todos.md) for full API documentation.
+These functions cover the full lifecycle of to-do items: create, list, get, update, partial update, and delete. See [To-Do Endpoints](../api-reference/todos.md) for full API documentation.
 
-### Create a Todo
+### Create a To-Do
 
 ```python
 def create_todo(base_url: str, token: str, title: str, **kwargs) -> dict:
@@ -314,7 +314,7 @@ todo = create_todo(
 )
 ```
 
-### List Todos
+### List To-Dos
 
 Retrieve a paginated list of to-do items with optional filtering, sorting, and search:
 
@@ -391,7 +391,7 @@ todos = list_todos(
 )
 ```
 
-### Get a Single Todo
+### Get a Single To-Do
 
 Retrieve a specific to-do item by its unique identifier:
 
@@ -416,7 +416,7 @@ def get_todo(base_url: str, token: str, todo_id: str) -> dict:
     return response.json()
 ```
 
-### Update a Todo (Full Replacement)
+### Update a To-Do (Full Replacement)
 
 Replace all fields of an existing to-do item. All writable fields must be included in the request body:
 
@@ -461,7 +461,7 @@ updated = update_todo(BASE_URL, token, "507f1f77bcf86cd799439011", {
 })
 ```
 
-### Partial Update a Todo
+### Partial Update a To-Do
 
 Update only specific fields of a to-do item without affecting other fields:
 
@@ -507,7 +507,7 @@ patch_todo(BASE_URL, token, "507f1f77bcf86cd799439011", {
 })
 ```
 
-### Delete a Todo
+### Delete a To-Do
 
 Permanently remove a to-do item. Returns no content on success:
 
@@ -1278,7 +1278,7 @@ For async Python applications (e.g., FastAPI, asyncio scripts), `httpx` provides
 pip install httpx
 ```
 
-### Async Todo Workflow
+### Async To-Do Workflow
 
 This example demonstrates an async workflow that creates a to-do item, lists all items, and fetches multiple items in parallel:
 

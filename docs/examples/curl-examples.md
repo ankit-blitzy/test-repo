@@ -19,7 +19,7 @@ Replace all placeholder values (`YOUR_ACCESS_TOKEN`, `YOUR_AUTH0_DOMAIN`, `YOUR_
 
 ## How to Use This Guide
 
-- Each section corresponds to an API domain: [Authentication](#authentication), [Todo Operations](#todo-operations), [User Profile](#user-profile), and [AI Processing](#ai-processing)
+- Each section corresponds to an API domain: [Authentication](#authentication), [To-Do Operations](#to-do-operations), [User Profile](#user-profile), and [AI Processing](#ai-processing)
 - Commands use the local development base URL `http://localhost:5000`
 - All authenticated endpoints require a Bearer token in the `Authorization` header
 - Export your token to a shell variable for convenience so you do not have to repeat it in every command
@@ -34,19 +34,19 @@ Replace all placeholder values (`YOUR_ACCESS_TOKEN`, `YOUR_AUTH0_DOMAIN`, `YOUR_
   - [Get Current User (Auth)](#get-current-user-auth)
   - [Refresh Token](#refresh-token)
   - [Logout](#logout)
-- [Todo Operations](#todo-operations)
-  - [Create a Todo](#create-a-todo)
-  - [Create a Minimal Todo](#create-a-minimal-todo)
-  - [List All Todos](#list-all-todos)
-  - [List Todos with Filtering](#list-todos-with-filtering)
-  - [List Todos with Pagination](#list-todos-with-pagination)
-  - [Search Todos](#search-todos)
+- [To-Do Operations](#to-do-operations)
+  - [Create a To-Do](#create-a-to-do)
+  - [Create a Minimal To-Do](#create-a-minimal-to-do)
+  - [List All To-Dos](#list-all-to-dos)
+  - [List To-Dos with Filtering](#list-to-dos-with-filtering)
+  - [List To-Dos with Pagination](#list-to-dos-with-pagination)
+  - [Search To-Dos](#search-to-dos)
   - [Filter by Tags](#filter-by-tags)
-  - [Get a Single Todo](#get-a-single-todo)
-  - [Update a Todo (Full Replacement)](#update-a-todo-full-replacement)
-  - [Partial Update a Todo](#partial-update-a-todo)
-  - [Change Todo Priority](#change-todo-priority)
-  - [Delete a Todo](#delete-a-todo)
+  - [Get a Single To-Do](#get-a-single-to-do)
+  - [Update a To-Do (Full Replacement)](#update-a-to-do-full-replacement)
+  - [Partial Update a To-Do](#partial-update-a-to-do)
+  - [Change To-Do Priority](#change-to-do-priority)
+  - [Delete a To-Do](#delete-a-to-do)
 - [User Profile](#user-profile)
   - [Get User Profile](#get-user-profile)
   - [Update User Profile](#update-user-profile)
@@ -247,13 +247,13 @@ curl -X POST $BASE_URL/api/auth/logout \
 
 ---
 
-## Todo Operations
+## To-Do Operations
 
 These commands cover the full CRUD lifecycle for to-do items: creating, listing, retrieving, updating, and deleting.
 
-See [Todo Endpoints](../api-reference/todos.md) for complete endpoint documentation including the todo resource schema, request/response field descriptions, and all status codes.
+See [To-Do Endpoints](../api-reference/todos.md) for complete endpoint documentation including the to-do resource schema, request/response field descriptions, and all status codes.
 
-### Create a Todo
+### Create a To-Do
 
 Create a new to-do item with all available fields.
 
@@ -288,7 +288,7 @@ curl -X POST $BASE_URL/api/todos \
 }
 ```
 
-### Create a Minimal Todo
+### Create a Minimal To-Do
 
 Create a to-do item with only the required `title` field. All other fields use their defaults: `priority` defaults to `medium`, `completed` defaults to `false`.
 
@@ -302,7 +302,7 @@ curl -X POST $BASE_URL/api/todos \
   }'
 ```
 
-### List All Todos
+### List All To-Dos
 
 Retrieve a paginated list of all to-do items for the authenticated user. Returns page 1 with 20 items per page by default.
 
@@ -353,7 +353,7 @@ curl -X GET $BASE_URL/api/todos \
 }
 ```
 
-### List Todos with Filtering
+### List To-Dos with Filtering
 
 Filter to-do items by priority, completion status, and sort order.
 
@@ -363,7 +363,7 @@ curl -X GET "$BASE_URL/api/todos?priority=high&completed=false&sort=due_date&ord
   -H "Authorization: Bearer $TOKEN"
 ```
 
-### List Todos with Pagination
+### List To-Dos with Pagination
 
 Control page size and navigate through large result sets.
 
@@ -373,7 +373,7 @@ curl -X GET "$BASE_URL/api/todos?page=2&limit=10" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-### Search Todos
+### Search To-Dos
 
 Perform full-text search across to-do titles and descriptions.
 
@@ -393,7 +393,7 @@ curl -X GET "$BASE_URL/api/todos?tags=work,urgent" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-### Get a Single Todo
+### Get a Single To-Do
 
 Retrieve a specific to-do item by its MongoDB ObjectId.
 
@@ -403,7 +403,7 @@ curl -X GET $BASE_URL/api/todos/507f1f77bcf86cd799439011 \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-### Update a Todo (Full Replacement)
+### Update a To-Do (Full Replacement)
 
 Replace all fields of a to-do item. All writable fields should be included in the request body — omitted fields may be reset to defaults.
 
@@ -422,7 +422,7 @@ curl -X PUT $BASE_URL/api/todos/507f1f77bcf86cd799439011 \
   }'
 ```
 
-### Partial Update a Todo
+### Partial Update a To-Do
 
 Update only specific fields using PATCH. Only the fields included in the request body are modified — all other fields remain unchanged.
 
@@ -436,7 +436,7 @@ curl -X PATCH $BASE_URL/api/todos/507f1f77bcf86cd799439011 \
   }'
 ```
 
-### Change Todo Priority
+### Change To-Do Priority
 
 Another partial update example — change only the priority level.
 
@@ -450,7 +450,7 @@ curl -X PATCH $BASE_URL/api/todos/507f1f77bcf86cd799439011 \
   }'
 ```
 
-### Delete a Todo
+### Delete a To-Do
 
 Permanently remove a to-do item. Returns `204 No Content` with an empty response body on success.
 
@@ -489,6 +489,7 @@ curl -X GET $BASE_URL/api/users/me \
   "preferences": {
     "theme": "dark",
     "notifications": true,
+    "language": "en",
     "default_priority": "medium",
     "timezone": "America/New_York"
   },
@@ -832,7 +833,7 @@ curl -v -X GET $BASE_URL/api/todos \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-### Batch Create Multiple Todos
+### Batch Create Multiple To-Dos
 
 Use a bash loop to create multiple to-do items from a list of titles.
 
@@ -929,7 +930,7 @@ curl -X GET $BASE_URL/api/todos/000000000000000000000000 \
 }
 ```
 
-**Fix:** Verify the resource ID is correct. Use the [List All Todos](#list-all-todos) command to see available to-do items and their IDs.
+**Fix:** Verify the resource ID is correct. Use the [List All To-Dos](#list-all-to-dos) command to see available to-do items and their IDs.
 
 ### 429 Too Many Requests — Rate Limit Exceeded
 
@@ -956,7 +957,7 @@ X-RateLimit-Reset: 1711276800
 ## Related Documentation
 
 - [API Overview](../api-reference/overview.md) — API conventions, authentication, error handling, and rate limiting
-- [Todo Endpoints](../api-reference/todos.md) — Complete todo CRUD endpoint reference
+- [To-Do Endpoints](../api-reference/todos.md) — Complete to-do CRUD endpoint reference
 - [User Endpoints](../api-reference/users.md) — User profile management endpoint reference
 - [Authentication Endpoints](../api-reference/auth.md) — Authentication flow endpoint reference
 - [AI Endpoints](../api-reference/ai.md) — AI processing endpoint reference

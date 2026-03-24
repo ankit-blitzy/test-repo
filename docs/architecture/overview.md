@@ -130,7 +130,7 @@ The Flask 3.1.3 backend implements a layered monolithic architecture (not micros
 
 - **Flask API Server:** REST API gateway handling request routing, middleware pipeline (CORS, rate limiting, JWT validation), and response serialization.
 - **Auth Service:** Validates JWT tokens against the Auth0 JWKS endpoint, extracts user identity, and manages session context.
-- **Todo Service:** Implements full CRUD operations for to-do items including creation, retrieval, update, deletion, filtering, sorting, and completion toggling.
+- **To-Do Service:** Implements full CRUD operations for to-do items including creation, retrieval, update, deletion, filtering, sorting, and completion toggling.
 - **User Service:** Manages user profiles, preferences, and account lifecycle. Synchronizes user data with Auth0.
 - **AI Processing Service:** Powered by LangChain 1.2.10, provides three processing patterns: Simple (direct LLM query), RAG (retrieval-augmented generation with document context), and Multi-Step Agent (tool-orchestrated workflows).
 
@@ -176,7 +176,7 @@ The Todo Application consists of 13 primary components distributed across the fi
 | 6 | Browser Extension | Client | Chrome/Firefox APIs | Quick-add to-do items from browser context menu |
 | 7 | Auth0 Identity Provider | Authentication | Auth0 SaaS | User authentication, authorization, MFA, token management |
 | 8 | Flask API Server | Service | Flask 3.1.3, Python 3.13 | REST API gateway, request routing, middleware pipeline |
-| 9 | Todo Service | Service | Python | CRUD operations for to-do items, filtering, sorting |
+| 9 | To-Do Service | Service | Python | CRUD operations for to-do items, filtering, sorting |
 | 10 | User Service | Service | Python | User profile management, preferences, account lifecycle |
 | 11 | Auth Service | Service | Python | JWT validation, Auth0 integration, session management |
 | 12 | AI Processing Service | Service | Python, LangChain 1.2.10 | Natural language processing, task suggestions, conversational AI |
@@ -225,14 +225,14 @@ Eight primary data flows traverse the architecture, each following a defined pat
 | --- | --- | --- | --- |
 | 1 | User Authentication | Client → Auth0 → Client → Flask | OAuth 2.0 login, token acquisition, token validation |
 | 2 | Token Refresh | Client → Auth0 → Client | Silent refresh using refresh token when access token expires |
-| 3 | Todo CRUD | Client → Flask → TodoService → MongoDB | Create, read, update, delete to-do items |
+| 3 | To-Do CRUD | Client → Flask → TodoService → MongoDB | Create, read, update, delete to-do items |
 | 4 | User Profile | Client → Flask → UserService → MongoDB | Read and update user profile and preferences |
 | 5 | Simple AI Query | Client → Flask → AIService → LangChain → LLM Provider | Direct LLM query without document context |
 | 6 | RAG AI Query | Client → Flask → AIService → LangChain → MongoDB (embeddings) → LLM Provider | Query with retrieved document context |
 | 7 | Agent AI Query | Client → Flask → AIService → LangChain → [Multiple Tools] → LLM Provider | Multi-step agent workflow with tool execution |
 | 8 | Webhook/Callback | Auth0 → Flask → UserService → MongoDB | Auth0 post-login/registration webhooks for user sync |
 
-### Detailed Flow: Todo CRUD
+### Detailed Flow: To-Do CRUD
 
 The following sequence diagram illustrates the complete request lifecycle for creating a to-do item, demonstrating the authentication middleware, service layer, and database interaction pattern that applies to all CRUD operations.
 
