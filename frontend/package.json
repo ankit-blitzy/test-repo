@@ -1,36 +1,39 @@
 {
-  "name": "calc-frontend",
+  "name": "calc-scientific-calculator",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "CALC - Scientific Calculator with calculation history",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run --no-watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "typescript": "~5.9.3",
-    "tailwindcss": "^4.1.0",
-    "mathjs": "^15.1.1",
+    "@auth0/auth0-react": "^2.2.4",
     "axios": "^1.9.0",
-    "@auth0/auth0-react": "^2.2.4"
+    "mathjs": "^15.1.1",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.2.1",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^4.5.2",
-    "vite": "^6.3.5",
-    "vitest": "^3.2.1",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "eslint": "^9.27.0",
-    "postcss": "^8.5.4",
     "autoprefixer": "^10.4.21",
-    "jsdom": "^26.1.0"
+    "eslint": "^9.27.0",
+    "jsdom": "^26.1.0",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.1"
   },
   "engines": {
     "node": ">=22.0.0"
