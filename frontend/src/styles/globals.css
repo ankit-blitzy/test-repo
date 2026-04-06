@@ -1,0 +1,414 @@
+/**
+ * Global Stylesheet — CALC Scientific Calculator
+ *
+ * This is the SOLE CSS file for the entire frontend application.
+ * Per AAP Section 0.7.4: "No inline styles, CSS modules, or separate CSS files
+ * per component (except globals.css for TailwindCSS directives)."
+ *
+ * TailwindCSS v4 processes this file to generate all utility classes,
+ * component styles, and custom utilities used by React components.
+ *
+ * Structure:
+ *   1. TailwindCSS v4 import — injects preflight, theme, and utility layers
+ *   2. Config reference — loads custom tokens from tailwind.config.ts
+ *   3. @layer base — foundational body and element styles
+ *   4. @layer components — reusable calculator component classes
+ *   5. @layer utilities — fine-grained utility classes and animations
+ *
+ * Imported by: frontend/src/main.tsx via `import '@/styles/globals.css'`
+ */
+
+/* ==========================================================================
+   1. TailwindCSS v4 Framework Import
+   Injects Tailwind's Preflight (normalize/reset), default theme tokens,
+   and all utility class definitions into the cascade layers.
+   ========================================================================== */
+@import "tailwindcss";
+
+/* ==========================================================================
+   2. Custom Theme Configuration Reference
+   Loads calculator-specific design tokens (colors, spacing, fonts, grid
+   columns, border-radius) from the JavaScript/TypeScript configuration file.
+   This enables utility classes like bg-calculator-bg, h-key, font-calculator,
+   grid-cols-keypad-4, and rounded-key throughout the application.
+   ========================================================================== */
+@config "../tailwind.config.ts";
+
+/* ==========================================================================
+   3. Base Layer — Foundational Styles
+   Applied globally to HTML elements. Sets the dark theme background,
+   text color, font family, and box-sizing model for the entire application.
+   ========================================================================== */
+@layer base {
+  /**
+   * Body element base styles.
+   * - bg-calculator-bg: Dark background (#1a1a2e) from tailwind.config.ts
+   * - text-calculator-text: Light text (#eee) from tailwind.config.ts
+   * - font-display: Sans-serif font stack (Inter, system-ui, sans-serif)
+   * - antialiased: Smooth font rendering via -webkit-font-smoothing
+   */
+  body {
+    @apply bg-calculator-bg text-calculator-text font-display antialiased;
+  }
+
+  /**
+   * Universal box-sizing reset.
+   * Ensures padding and borders are included in element dimensions
+   * for predictable layout calculations across all calculator components.
+   */
+  *,
+  *::before,
+  *::after {
+    @apply box-border;
+  }
+}
+
+/* ==========================================================================
+   4. Components Layer — Reusable Calculator UI Classes
+   Defines component-level styles for calculator grids, keypad buttons,
+   display area, history panel, and mode toggle. All values reference
+   TailwindCSS tokens defined in tailwind.config.ts.
+   ========================================================================== */
+@layer components {
+  /* --------------------------------------------------------------------------
+     4.1 Calculator Grid Layout
+     Container and grid definitions for the calculator body and keypad areas.
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Main calculator grid container.
+   * Provides consistent padding and gap spacing for the calculator body.
+   */
+  .calculator-grid {
+    @apply grid gap-2 p-4;
+  }
+
+  /**
+   * Standard 4-column keypad grid layout.
+   * Used by StandardKeypad.tsx for digits (0-9) and basic operators (+, -, ×, ÷).
+   * Per AAP Section 0.5.3: Standard keypad uses a 4×5 grid.
+   * grid-cols-keypad-4 maps to repeat(4, 1fr) from tailwind.config.ts.
+   */
+  .keypad-standard {
+    @apply grid grid-cols-keypad-4 gap-2;
+  }
+
+  /**
+   * Extended 5-column scientific keypad grid layout.
+   * Used by ScientificKeypad.tsx for scientific functions (sin, cos, tan, etc.).
+   * Per AAP Section 0.5.3: Scientific keypad uses a 5×4 grid.
+   * grid-cols-keypad-5 maps to repeat(5, 1fr) from tailwind.config.ts.
+   */
+  .keypad-scientific {
+    @apply grid grid-cols-keypad-5 gap-2;
+  }
+
+  /* --------------------------------------------------------------------------
+     4.2 Calculator Key Button Styles
+     Base styles shared by all key types, plus variant-specific backgrounds
+     and interactive states. Components use both .calc-key and a variant class.
+     Per AAP Section 0.5.3: "Button press feedback via TailwindCSS active/hover
+     states (scale, background color shift)"
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Base calculator key styles shared across all key types.
+   * Applied to every key button alongside a variant class (e.g., calc-key-number).
+   *
+   * Layout: Flexbox centered content
+   * Typography: Monospace font (font-calculator), semibold, lg size
+   * Sizing: h-key (3.5rem / 56px) from spacing tokens
+   * Shape: rounded-key (0.75rem / 12px) border radius
+   * Interaction: Smooth 150ms transitions, no text selection, pointer cursor
+   * Color: calculator-text (#eee) for consistent key label color
+   */
+  .calc-key {
+    @apply flex items-center justify-center rounded-key font-calculator text-calculator-text
+           cursor-pointer select-none transition-all duration-150 ease-in-out
+           h-key text-lg font-semibold;
+  }
+
+  /**
+   * Number key variant (digits 0-9, decimal point).
+   * Background: calculator-key-number (#1a1a2e) — darker, matching calculator body.
+   * Hover: brightness-125 — subtle lightening effect.
+   * Active: scale-95 shrink + brightness-90 darken for press feedback.
+   */
+  .calc-key-number {
+    @apply bg-calculator-key-number;
+  }
+
+  .calc-key-number:hover {
+    @apply brightness-125;
+  }
+
+  .calc-key-number:active {
+    @apply scale-95 brightness-90;
+  }
+
+  /**
+   * Operator key variant (+, -, ×, ÷, %, C, CE, ±).
+   * Background: calculator-key-operator (#e94560) — red accent color.
+   * Hover: brightness-110 — subtle lightening (less than number keys since already vivid).
+   * Active: scale-95 shrink + brightness-90 darken for press feedback.
+   */
+  .calc-key-operator {
+    @apply bg-calculator-key-operator;
+  }
+
+  .calc-key-operator:hover {
+    @apply brightness-110;
+  }
+
+  .calc-key-operator:active {
+    @apply scale-95 brightness-90;
+  }
+
+  /**
+   * Scientific function key variant (sin, cos, tan, log, ln, √, x², xⁿ, n!, π, e).
+   * Background: calculator-key-scientific (#533483) — purple accent color.
+   * Hover: brightness-125 — lightening effect matching number keys.
+   * Active: scale-95 shrink + brightness-90 darken for press feedback.
+   */
+  .calc-key-scientific {
+    @apply bg-calculator-key-scientific;
+  }
+
+  .calc-key-scientific:hover {
+    @apply brightness-125;
+  }
+
+  .calc-key-scientific:active {
+    @apply scale-95 brightness-90;
+  }
+
+  /**
+   * Equals key variant (=).
+   * Background: calculator-key-equal (#e94560) — matches operator red accent.
+   * Hover: brightness-110 — subtle lightening.
+   * Active: scale-95 shrink + brightness-90 darken for press feedback.
+   */
+  .calc-key-equal {
+    @apply bg-calculator-key-equal;
+  }
+
+  .calc-key-equal:hover {
+    @apply brightness-110;
+  }
+
+  .calc-key-equal:active {
+    @apply scale-95 brightness-90;
+  }
+
+  /* --------------------------------------------------------------------------
+     4.3 Calculator Display Area
+     Dual-line display showing the current expression (top) and computed
+     result (bottom). Per AAP Section 0.5.3: "Primary display line showing
+     current expression" and "Secondary display line showing live-computed result"
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Calculator display container.
+   * Background: calculator-display (#16213e) — slightly lighter than body.
+   * Typography: Monospace font for expression alignment, right-aligned text.
+   * Height: min-h-display (6rem / 96px) ensures sufficient display area.
+   */
+  .calculator-display {
+    @apply bg-calculator-display rounded-lg p-4 min-h-display font-calculator text-right;
+  }
+
+  /**
+   * Expression line — shows the current input expression being built.
+   * Dimmed text color (calculator-text-dim #999) for visual hierarchy.
+   * Truncates with ellipsis for overflow on long expressions.
+   */
+  .display-expression {
+    @apply text-calculator-text-dim text-sm truncate;
+  }
+
+  /**
+   * Result line — shows the live-computed calculation result.
+   * Full brightness text (calculator-text #eee), large 4xl size, bold weight.
+   * Truncates with ellipsis for very large numbers.
+   */
+  .display-result {
+    @apply text-calculator-text text-4xl font-bold truncate;
+  }
+
+  /**
+   * Error state display.
+   * Per AAP Section 0.5.3: "Error states displayed in red on the display
+   * with descriptive messages (e.g., 'Cannot take square root of negative number')"
+   * Uses Tailwind's built-in red-500 for clear error indication.
+   */
+  .display-error {
+    @apply text-red-500 text-xl;
+  }
+
+  /* --------------------------------------------------------------------------
+     4.4 History Panel
+     Collapsible sidebar displaying past calculations in reverse chronological
+     order. Per AAP Section 0.5.3: History panel as right sidebar (desktop),
+     bottom drawer (tablet), or full-screen overlay (mobile).
+     -------------------------------------------------------------------------- */
+
+  /**
+   * History panel container.
+   * Background: calculator-history (#0f3460) for visual distinction.
+   * Left border separates panel from calculator area.
+   * Scrollable overflow for long history lists.
+   */
+  .history-panel {
+    @apply bg-calculator-history border-l border-calculator-key-default overflow-y-auto;
+  }
+
+  /**
+   * Individual history entry card.
+   * Displays expression, result, timestamp, and reuse action.
+   * Bottom border separates entries visually.
+   * Hover state: subtle background tint using key-default color at 30% opacity.
+   * Smooth color transition on hover for polished interaction.
+   */
+  .history-entry {
+    @apply p-3 border-b border-calculator-key-default
+           cursor-pointer transition-colors duration-150;
+  }
+
+  .history-entry:hover {
+    background-color: color-mix(in srgb, var(--color-calculator-key-default, #0f3460) 30%, transparent);
+  }
+
+  /* --------------------------------------------------------------------------
+     4.5 Mode Toggle
+     Standard/Scientific mode toggle switch with smooth transition animation.
+     Per AAP Section 0.5.3: "Mode toggle smoothly expands/collapses the
+     scientific keypad with CSS transition"
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Mode toggle container — pill-shaped toggle switch.
+   * Background: calculator-key-default (#0f3460) as neutral track color.
+   * Smooth 300ms color transition for state changes.
+   */
+  .mode-toggle {
+    @apply relative inline-flex items-center rounded-full p-1 cursor-pointer
+           bg-calculator-key-default transition-colors duration-300;
+  }
+
+  /**
+   * Mode toggle active indicator — sliding dot.
+   * Background: calculator-accent (#e94560) for visual emphasis.
+   * Smooth 300ms transform transition for sliding animation.
+   */
+  .mode-toggle-indicator {
+    @apply absolute rounded-full bg-calculator-accent transition-transform duration-300 ease-in-out;
+  }
+}
+
+/* ==========================================================================
+   5. Utilities Layer — Custom Fine-Grained Utilities
+   Scrollbar styling, expand/collapse animations, slide transitions,
+   and grid span utilities for the calculator interface.
+   ========================================================================== */
+@layer utilities {
+  /* --------------------------------------------------------------------------
+     5.1 History Panel Scrollbar Styling
+     Thin custom scrollbar for the history panel to maintain the dark theme.
+     Cross-browser support: scrollbar-width for Firefox, ::-webkit-scrollbar
+     for Chrome/Safari/Edge.
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Thin scrollbar utility.
+   * Applies a narrow, theme-consistent scrollbar using the calculator key-default
+   * color for the thumb on a transparent track.
+   */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-calculator-key-default, #0f3460) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-calculator-key-default, #0f3460);
+    border-radius: 3px;
+  }
+
+  /* --------------------------------------------------------------------------
+     5.2 Scientific Keypad Expand/Collapse Animation
+     Smooth max-height + opacity transition for revealing the scientific keypad
+     when the user toggles from Standard to Scientific mode.
+     Per AAP Section 0.5.3: "Mode toggle smoothly expands/collapses the
+     scientific keypad with CSS transition"
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Scientific panel collapsed state.
+   * max-height: 0 with hidden overflow clips the content entirely.
+   * opacity: 0 fades out the panel for a clean reveal animation.
+   * Transition applies to all properties over 300ms for synchronized animation.
+   */
+  .scientific-panel-enter {
+    @apply transition-all duration-300 ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  /**
+   * Scientific panel expanded/active state.
+   * max-height: 500px provides enough room for the scientific keypad grid.
+   * opacity: 1 makes the panel fully visible.
+   * Applied alongside scientific-panel-enter for the transition effect.
+   */
+  .scientific-panel-active {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  /* --------------------------------------------------------------------------
+     5.3 History Panel Slide Animation
+     Horizontal slide transition for the history sidebar panel.
+     Per AAP Section 0.5.3: "History panel slides in/out with transform animation"
+     -------------------------------------------------------------------------- */
+
+  /**
+   * History panel hidden/slide-out state.
+   * translateX(100%) moves the panel fully off-screen to the right.
+   * 300ms transform transition for smooth slide effect.
+   */
+  .history-slide-enter {
+    @apply transition-transform duration-300 ease-in-out;
+    transform: translateX(100%);
+  }
+
+  /**
+   * History panel visible/slide-in state.
+   * translateX(0) positions the panel at its natural location.
+   * Applied alongside history-slide-enter for the transition effect.
+   */
+  .history-slide-active {
+    transform: translateX(0);
+  }
+
+  /* --------------------------------------------------------------------------
+     5.4 Key Span Utilities
+     Grid column span utilities for wide calculator keys (e.g., "0" key
+     spanning two columns in the standard keypad layout).
+     -------------------------------------------------------------------------- */
+
+  /**
+   * Double-width key span utility.
+   * Used for the "0" key or "=" key to span two grid columns.
+   */
+  .key-span-2 {
+    @apply col-span-2;
+  }
+}
